@@ -1,0 +1,37 @@
+$bg:#2c2c2c;//背景色
+$bg-light:#eee;
+$fontcolor:#eee;//字体的颜色
+$fontcolor-hover:#aaa;
+$base-font-size: 16px;//
+$bordercolor:#ccc;
+html{
+    font-size: $base-font-size;
+}
+html,body{
+    margin: 0;
+    padding: 0;
+    height:100%;
+    width: 100%;
+    // overflow: hidden;
+    position: relative;
+    background:#f4f4f4;
+}
+a{
+    text-decoration:none;
+    color: $fontcolor;
+    cursor: pointer;
+}
+li{
+    list-style: none;
+}
+//px转换rem 自动化转化
+@function p($px) {
+    @if (unitless($px)) {
+      @warn "Assuming #{$px} to be in pixels, attempting to convert it into pixels for you";
+      @return p($px + 0px); // That may fail.
+    } @else if (unit($px) == rem) {
+      @return $px;
+    }
+    @return ($px / $base-font-size) * 1rem;
+  }
+  
