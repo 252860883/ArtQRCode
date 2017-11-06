@@ -1,4 +1,6 @@
 export default{
-    codeId:1,
-
+    codeId: "code1",
+    url: require("../assets/component1/main.jpg"),
+    name: "烘培工坊",
+    
 }

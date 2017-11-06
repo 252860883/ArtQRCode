@@ -1,6 +1,6 @@
 <template>
   <div class="view-content" >
-        <div class="col-view-border" v-for=" view in views" :key="view.url" @click="toMadeCode(view)">
+        <div class="col-view-border" v-for=" view in views" :key="view.url" @click="isClick(view)">
             <div class="instruction">
                 <span class="name">{{view.name}}</span><br>
                 <div class="number">
@@ -14,41 +14,43 @@
 </template>
 
 <script>
+import {mapActions} from "vuex";
+
 export default {
   data() {
     return {
       views: [
         {
-          codeId: "1",
+          codeId: "code1",
           url: require("../assets/component1/main.jpg"),
           name: "烘培工坊",
           click: "4666",
           save: "687"
         },
         {
-          codeId: "2",
-          url: require("../assets/main/view1.jpg"),
+          codeId: "code2",
+          url: require("../assets/main/view2.jpg"),
           name: "幽径紫夜月",
           click: "66666",
           save: "8765"
         },
         {
-          codeId: "3",
-          url: require("../assets/main/view2.jpg"),
+          codeId: "code3",
+          url: require("../assets/main/view3.jpg"),
           name: "疯狂动物城",
           click: "6952",
           save: "878"
         },
-        
+
         {
-          codeId: "4",
+          codeId: "code4",
           url: require("../assets/main/view4.jpg"),
           name: "猫狗大战",
           click: "946",
           save: "105"
         },
         {
-          codeId: "5",
+          codeId: "code5",
           url: require("../assets/main/view6.jpg"),
           name: "简约方块拼凑风",
           click: "946",
@@ -58,10 +60,13 @@ export default {
     };
   },
   methods: {
-    toMadeCode(view) {
-      // console.log(id);
-      // this.$router.push({ path: "/madeCode", query: { codeId: view.codeId,url:view.url,save:view.save,name:view.name} });
-    }
+    isClick(view) {
+        this.$emit('child-say');
+        this.changeCodeId(view);
+    },
+    ...mapActions([
+      'changeCodeId'
+      ])
   }
 };
 </script>
@@ -71,14 +76,14 @@ export default {
 
 .view-content {
   width: p(700px);
-  height: p(230px);
+  height: p(200px);
   margin: p(10px) 0;
   overflow: auto;
 
   .col-view-border {
     display: inline-block;
     float: left;
-    height: p(225px);
+    height: p(200px);
     border: p(1px) solid $bordercolor;
     border-radius: p(5px);
     margin: p(12px);
@@ -97,7 +102,7 @@ export default {
         opacity: 0.9;
       }
     }
-    .instruction{
+    .instruction {
       display: none;
     }
     &:hover {
@@ -114,7 +119,7 @@ export default {
         box-sizing: border-box;
         background: #666;
         font-size: p(13px);
-        padding: p(3px)
+        padding: p(3px);
       }
     }
   }

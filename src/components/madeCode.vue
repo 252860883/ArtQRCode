@@ -3,15 +3,15 @@
   <div class="content">
     <div class="left">
       <div class="qrcode-content">
-        <img class="qrcode-border" :src="lists.url">
           <div id="qrcode"></div>
+          <img class="qrcode-border" :src="this.$store.state.url" v-if="isImgShow">
       </div>
     </div>
 
     <div class="right">
       <div class="instruction">
         <div class="title">
-          <h2>{{lists.name}}</h2>
+          <h2>{{this.$store.state.name}}</h2>
           <!-- <span>编号ID:{{lists.codeId}}</span>
           <span>收藏:{{lists.save}}次</span> -->
           <div class="how">
@@ -20,7 +20,7 @@
         </div>
       </div>
       <div class="list">
-        <list ></list>
+        <list v-on:child-say="isClick"></list>
       </div>
       <textarea  cols="30" rows="10" v-model="text" placeholder="请输入文字或者链接"></textarea>
       <a onclick='javascript:void(0)'>点击上传二维码图片</a>
@@ -40,14 +40,9 @@ import list from "../components/list";
 export default {
   data() {
     return {
-      lists: {
-        codeId: "678",
-        name: "我爱你",
-        save: "768552121",
-        url: ""
-      },
       text: "",
-      UIcomponent: "component1",
+      isImgShow:true,
+      // UIcomponent: "component1",
       UIpath: [
         "border",
         "eyeBorder",
@@ -58,24 +53,78 @@ export default {
         "row2col1",
         "col3"
       ],
-      UIscource: {},
-      backgroundUrl: {
-        // background: `url(${url})`
-      }
+
+      UIcomponents: {
+        code1: {
+          codeId: "678",
+          name: "烘培工坊",
+          save: "768552121",
+          url: require("../assets/component1/main.jpg"),
+          position: {
+            top: 77,
+            left: 77,
+            width: 197,
+            height: 197,
+            bgWidth: 350,
+            bgHeight: 500
+          },
+          path: {
+            border: require("../assets/component1/border.png"),
+            eyeBorder: require("../assets/component1/eyeBorder.png"),
+            eyeCenter: require("../assets/component1/eyeCenter.png"),
+            col2: require("../assets/component1/col2.png"),
+            row2: require("../assets/component1/row2.png"),
+            single: require("../assets/component1/single.png"),
+            row2col1: require("../assets/component1/row2col1.png"),
+            col3: require("../assets/component1/col3.png")
+          }
+        },
+        code2: {
+          codeId: "678",
+          name: "烘培工坊",
+          save: "768552121",
+          url: require("../assets/component2/main.jpg"),
+          position: {
+            top: 107,
+            left: 99,
+            width: 152,
+            height: 152,
+            bgWidth: 350,
+            bgHeight: 500
+          },
+          path: {
+            border: require("../assets/component2/border.jpg"),
+            eyeBorder: require("../assets/component2/eyeBorder.png"),
+            eyeCenter: require("../assets/component2/eyeCenter.png"),
+            col2: require("../assets/component2/col2.png"),
+            row2: require("../assets/component2/row2.png"),
+            single: require("../assets/component2/single.png"),
+            row2col1: require("../assets/component2/row2col1.png"),
+            col3: require("../assets/component2/col3.png")
+          }
+        }
+      },
+      UIscource: {}
     };
   },
   components: {
     list
   },
-  created() {
-    this.url = this.lists.url;
-    console.log(QRCode);
-  },
   mounted() {
+    // let codeId = this.$store.state.codeId;
+    // this.lists = this.UIcomponents[codeId];
+  },
+  created() {
     var self = this;
     // self.newQRCode();
   },
   methods: {
+    //
+    isClick:function(){
+      this.isImgShow=true;
+      document.getElementById("qrcode").innerHTML = "";
+    },
+
     madeCode() {
       this.imgLoad();
     },
@@ -83,22 +132,31 @@ export default {
     //加载所有的素材文件
     imgLoad() {
       let qr = [], //存放所有 promise 的状态
-        self = this;
-      self.UIpath.map((value, index) => {
+        self = this,
+        codeId = this.$store.state.codeId,
+        UI = self.UIcomponents[codeId];
+      self.UIscource['position'] = UI.position;
+      console.log(self.UIscource);
+
+      for (var key in UI.path) {
         let promise = new Promise(resolve => {
-          let name = value;
-          value = new Image();
-          value.src = require(`../assets/${self.UIcomponent}/${name}.png`);
-          self.UIscource[name] = value;
+          let value = new Image();
+          value.src = UI.path[key];
+          self.UIscource[key] = value;
           value.onload = () => {
             resolve();
           };
         });
         qr.push(promise);
-      });
+      }
+      self.UIpath.map((value, index) => {});
 
       Promise.all(qr).then(() => {
-        self.drawQRCode();
+        
+        if(self.text){
+          self.isImgShow=false;
+          self.drawQRCode();
+        }
       });
     },
 
@@ -106,17 +164,14 @@ export default {
     drawQRCode() {
       var self = this;
       document.getElementById("qrcode").innerHTML = "";
-      //
       new QRCode.QRCode(document.getElementById("qrcode"), {
         text: self.text,
-        width: 197,
-        height: 197,
-        bgWidth: 350,
-        bgheight: 500,
-        top: 77,
-        left: 77,
-        colorDark: "#6e3805",
-        colorLight: "rgba(0,0,0,0)",
+        width: self.UIscource.position.width,
+        height: self.UIscource.position.height,
+        bgWidth: self.UIscource.position.bgWidth,
+        bgheight: self.UIscource.position.bgHeight,
+        top: self.UIscource.position.top,
+        left: self.UIscource.position.left,
         // correctLevel : QRCode.CorrectLevel.H,
         border: self.UIscource.border,
         eyeBorder: self.UIscource.eyeBorder, //码眼边框
@@ -242,4 +297,5 @@ export default {
     }
   }
 }
+
 </style>

@@ -9,7 +9,6 @@
  * @see <a href="http://jeromeetienne.github.com/jquery-qrcode/" target="_blank">http://jeromeetienne.github.com/jquery-qrcode/</a>
  */
 
-
 //暴露QRCode方法
 var QRCode;
 
@@ -966,6 +965,8 @@ var QRCode;
             for (var i = 0; i < nCount; i++) {
                 isDraw[i] = [];
             }
+            isDraw=oQRCode.modules;
+            // console.log(isDraw);
 
             this.clear();
 
@@ -985,59 +986,57 @@ var QRCode;
                     // var nLeft = col * nRoundedWidth;
                     // var nTop = row * nRoundedHeight;
 
-                    var colorRandom = ['#7e0043', '#834e00', '#31004a', '#7d0022', '#005982', '#001c58', '003567'];
+                    // var colorRandom = ['#7e0043', '#834e00', '#31004a', '#7d0022', '#005982', '#001c58', '003567'];
 
-                    if (!isDraw[row][col]) {
+                    if (isDraw[row][col]) {
                         //绘制码眼
-                        if (row == 2 && col == 2 || row == nCount - 5 && col == 2 || row == 2 && col == nCount - 5) {
+                        if (this.eyeCenter && row == 2 && col == 2 || row == nCount - 5 && col == 2 || row == 2 && col == nCount - 5) {
                             _oContext.drawImage(this.eyeCenter, nLeft, nTop, nWidth * 3, nHeight * 3);
                             for (var i = 0; i < 3; i++) {
                                 for (var j = 0; j < 3; j++) {
-                                    isDraw[row + i][col + j] = true;
+                                    isDraw[row + i][col + j] = false;
                                 }
                             }
                         }
                         //绘制码眼边框
-                        else if (row == 0 && col == 0 || row + 7 == nCount && col == 0 || row == 0 && col + 7 == nCount) {
+                        else if (this.eyeBorder && row == 0 && col == 0 || row + 7 == nCount && col == 0 || row == 0 && col + 7 == nCount) {
                             _oContext.drawImage(this.eyeBorder, nLeft, nTop, nWidth * 7, nHeight * 7);
                             for (var i = 0; i < 7; i++) {
-                                isDraw[row][col + i] = isDraw[row + 6][col + i] = isDraw[row + i][col] = isDraw[row + i][col + 6] = true;
+                                isDraw[row][col + i] = isDraw[row + 6][col + i] = isDraw[row + i][col] = isDraw[row + i][col + 6] = false;
                             }
                         }
                         //正方形的时候
-                        else if (col + 1 < nCount && row + 1 < nCount && oQRCode.isDark(row, col) && oQRCode.isDark(row, col + 1) && !isDraw[row][col + 1] && oQRCode.isDark(row + 1, col) && !isDraw[row + 1][col] && oQRCode.isDark(row + 1, col + 1) && !isDraw[row + 1][col + 1]) {
+                        else if (this.eyeCenter && col + 1 < nCount && row + 1 < nCount  && isDraw[row][col + 1] && isDraw[row + 1][col] && isDraw[row + 1][col + 1]) {
                             _oContext.drawImage(this.eyeCenter, nLeft, nTop, nWidth * 2, nHeight * 2);
-                            isDraw[row][col] = isDraw[row + 1][col] = isDraw[row][col + 1] = isDraw[row + 1][col + 1] = true;
+                            isDraw[row][col] = isDraw[row + 1][col] = isDraw[row][col + 1] = isDraw[row + 1][col + 1] = false;
                         }
+                        
                         //row2 col1 的时候
-                        else if (col + 1 < nCount && row + 1 < nCount && oQRCode.isDark(row, col) && oQRCode.isDark(row, col + 1) && !isDraw[row][col + 1] && oQRCode.isDark(row + 1, col) && !isDraw[row + 1][col]) {
+                        else if ( this.row2col1 && col + 1 < nCount && row + 1 < nCount&& isDraw[row][col + 1] && isDraw[row + 1][col]) {
                             _oContext.drawImage(this.row2col1, nLeft, nTop, nWidth * 2, nHeight * 2);
-                            isDraw[row][col] = isDraw[row + 1][col] = isDraw[row][col + 1] = true;
+                            isDraw[row][col] = isDraw[row + 1][col] = isDraw[row][col + 1] = false;
                         }
-
                         //col3的时候
-                        else if (row + 2 < nCount && oQRCode.isDark(row, col) && oQRCode.isDark(row + 1, col) && oQRCode.isDark(row + 2, col)) {
+                        else if ( this.col3 && row + 2 < nCount  && isDraw[row+1][col] && isDraw[row+2][col]) {
                             _oContext.drawImage(this.col3, nLeft, nTop, nWidth, nHeight * 3);
-                            isDraw[row][col] = isDraw[row + 1][col] = isDraw[row + 2][col] = true;
+                            isDraw[row][col] = isDraw[row + 1][col] = isDraw[row + 2][col] = false;
                         }
 
                         //row2时绘制 
-                        else if (row + 1 < nCount && oQRCode.isDark(row, col) && oQRCode.isDark(row + 1, col) && !isDraw[row + 1][col]) {
-                            _oContext.drawImage(this.col2, nLeft, nTop, nWidth, nHeight * 2);
-                            isDraw[row][col] = isDraw[row + 1][col] = true;
+                        else if ( this.row2 && row + 1 < nCount  && isDraw[row + 1][col]) {
+                            _oContext.drawImage(this.row2, nLeft, nTop, nWidth, nHeight * 2);
+                            isDraw[row][col] = isDraw[row + 1][col] = false;
                         }
 
                         //col2时绘制
-                        else if (col + 1 < nCount && oQRCode.isDark(row, col) && oQRCode.isDark(row, col + 1) && !isDraw[row][col + 1]) {
+                        else if ( this.col2 && col + 1 < nCount && isDraw[row][col + 1]) {
                             _oContext.drawImage(this.col2, nLeft, nTop, nWidth * 2, nHeight);
-                            isDraw[row][col] = isDraw[row][col + 1] = true;
+                            isDraw[row][col] = isDraw[row][col + 1] = false;
                         }
-
-
                         //单个时
-                        else if (oQRCode.isDark(row, col)) {
+                        else if (this.single && isDraw[row][col]) {
                             _oContext.drawImage(this.single, nLeft, nTop, nWidth, nHeight);
-                            isDraw[row][col] = true;
+                            isDraw[row][col] = false;
                         }
                     }
 
@@ -1205,7 +1204,7 @@ var QRCode;
             typeNumber: 4,
             colorDark: "#000000",
             colorLight: "#ffffff",
-            correctLevel: QRErrorCorrectLevel.M,
+            correctLevel: QRErrorCorrectLevel.L,
 
             //素材
             border:"",
