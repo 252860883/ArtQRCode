@@ -14,7 +14,8 @@ vue全家桶
 
 ### 未完成
 识别图片二维码  
-  
+海报编辑改字模板  
+二维码名片设计
 . . .
 ### 效果图
 ![image](http://wx1.sinaimg.cn/mw690/a73bc6a1ly1fl867ocwydj211g0gw7l0.jpg)
