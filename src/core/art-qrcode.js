@@ -9,10 +9,16 @@
  * @see <a href="http://jeromeetienne.github.com/jquery-qrcode/" target="_blank">http://jeromeetienne.github.com/jquery-qrcode/</a>
  */
 
+
+
 //暴露QRCode方法
 var QRCode;
+import hidpiCanvas from '../core/hidpi-canvas';
 
 (function () {
+    var imgSrc;
+
+    // hidpi;
     //---------------------------------------------------------------------
     // QRCode for JavaScript
     //
@@ -28,6 +34,7 @@ var QRCode;
     //   http://www.denso-wave.com/qrcode/faqpatent-e.html
     //
     //---------------------------------------------------------------------
+    // console.log(hidpi-canvas);
 
     function QR8bitByte(data) {
         this.mode = QRMode.MODE_8BIT_BYTE;
@@ -816,6 +823,8 @@ var QRCode;
             this._el.innerHTML = '';
         };
 
+        
+
         return Drawing;
     })() : (function () { // Drawing in Canvas
         function _onMakeImage() {
@@ -899,7 +908,7 @@ var QRCode;
             // this._android = _getAndroid();
             this._htOption = htOption;
 
-            this.border=htOption.border;
+            this.border = htOption.border;
             this.eyeBorder = htOption.eyeBorder;
             this.eyeCenter = htOption.eyeCenter;
             this.col2 = htOption.col2;
@@ -911,24 +920,28 @@ var QRCode;
             this._elCanvas = document.createElement("canvas");
             this._elCanvas.style.display = "none";
 
-            this._elCanvas.width = htOption.bgWidth;
-            this._elCanvas.height = htOption.bgheight;
-            el.appendChild(this._elCanvas);
-            this._el = el;
-            /**
-             * 一个画布用来绘制码一个用来绘制背景
-             */
-            this._oContext = this._elCanvas.getContext("2d");
-            this._bgContext = this._elCanvas.getContext("2d");
             /**
              * 解决 canvas模糊的问题
              * 图像放大二倍，在实际dom中再缩小为50%
+             * 
              * */
-            // this._oContext.scale(2,2);
+            this._elCanvas.width = htOption.bgWidth * 2;
+            this._elCanvas.height = htOption.bgheight * 2;
+            el.appendChild(this._elCanvas);
+            this._el = el;
+            this._oContext = this._elCanvas.getContext("2d");
+            this._oContext.scale(2, 2);
+
+            // var ratio=hidpiCanvas.pixelRatio();
+
+
             this._bIsPainted = false;
             //动态创建img标签
             this._elImage = document.createElement("img");
             this._elImage.alt = "Scan me!";
+            this._elImage.style.width = htOption.bgWidth + 'px';
+            this._elImage.style.height = htOption.bgheight + 'px';
+
             this._elImage.style.display = "none";
             this._elImage.setAttribute('crossOrigin', 'anonymous');//设置图片可以跨域访问
             this._el.appendChild(this._elImage);
@@ -945,7 +958,6 @@ var QRCode;
         Drawing.prototype.draw = function (oQRCode) {
             var _elImage = this._elImage;
             var _oContext = this._oContext;
-            var _bgContext = this._bgContext;
             var _htOption = this._htOption;
 
             var nCount = oQRCode.getModuleCount();
@@ -953,10 +965,10 @@ var QRCode;
             var nHeight = _htOption.height / nCount;
             var nRoundedWidth = Math.round(nWidth);
             var nRoundedHeight = Math.round(nHeight);
-            var bgWidth=_htOption.bgWidth;
-            var bgheight=_htOption.bgheight;
-            var top=_htOption.top;
-            var left=_htOption.left;
+            var bgWidth = _htOption.bgWidth;
+            var bgheight = _htOption.bgheight;
+            var top = _htOption.top;
+            var left = _htOption.left;
 
             _elImage.style.display = "none";
 
@@ -965,7 +977,7 @@ var QRCode;
             for (var i = 0; i < nCount; i++) {
                 isDraw[i] = [];
             }
-            isDraw=oQRCode.modules;
+            isDraw = oQRCode.modules;
             // console.log(isDraw);
 
             this.clear();
@@ -981,8 +993,8 @@ var QRCode;
                 for (var col = 0; col < nCount; col++) {
                     var bIsDark = oQRCode.isDark(row, col);
 
-                    var nLeft = col * nWidth+left;
-                    var nTop = row * nHeight+top;
+                    var nLeft = col * nWidth + left;
+                    var nTop = row * nHeight + top;
                     // var nLeft = col * nRoundedWidth;
                     // var nTop = row * nRoundedHeight;
 
@@ -1006,30 +1018,30 @@ var QRCode;
                             }
                         }
                         //正方形的时候
-                        else if (this.eyeCenter && col + 1 < nCount && row + 1 < nCount  && isDraw[row][col + 1] && isDraw[row + 1][col] && isDraw[row + 1][col + 1]) {
+                        else if (this.eyeCenter && col + 1 < nCount && row + 1 < nCount && isDraw[row][col + 1] && isDraw[row + 1][col] && isDraw[row + 1][col + 1]) {
                             _oContext.drawImage(this.eyeCenter, nLeft, nTop, nWidth * 2, nHeight * 2);
                             isDraw[row][col] = isDraw[row + 1][col] = isDraw[row][col + 1] = isDraw[row + 1][col + 1] = false;
                         }
-                        
+
                         //row2 col1 的时候
-                        else if ( this.row2col1 && col + 1 < nCount && row + 1 < nCount&& isDraw[row][col + 1] && isDraw[row + 1][col]) {
+                        else if (this.row2col1 && col + 1 < nCount && row + 1 < nCount && isDraw[row][col + 1] && isDraw[row + 1][col]) {
                             _oContext.drawImage(this.row2col1, nLeft, nTop, nWidth * 2, nHeight * 2);
                             isDraw[row][col] = isDraw[row + 1][col] = isDraw[row][col + 1] = false;
                         }
                         //col3的时候
-                        else if ( this.col3 && row + 2 < nCount  && isDraw[row+1][col] && isDraw[row+2][col]) {
+                        else if (this.col3 && row + 2 < nCount && isDraw[row + 1][col] && isDraw[row + 2][col]) {
                             _oContext.drawImage(this.col3, nLeft, nTop, nWidth, nHeight * 3);
                             isDraw[row][col] = isDraw[row + 1][col] = isDraw[row + 2][col] = false;
                         }
 
                         //row2时绘制 
-                        else if ( this.row2 && row + 1 < nCount  && isDraw[row + 1][col]) {
+                        else if (this.row2 && row + 1 < nCount && isDraw[row + 1][col]) {
                             _oContext.drawImage(this.row2, nLeft, nTop, nWidth, nHeight * 2);
                             isDraw[row][col] = isDraw[row + 1][col] = false;
                         }
 
                         //col2时绘制
-                        else if ( this.col2 && col + 1 < nCount && isDraw[row][col + 1]) {
+                        else if (this.col2 && col + 1 < nCount && isDraw[row][col + 1]) {
                             _oContext.drawImage(this.col2, nLeft, nTop, nWidth * 2, nHeight);
                             isDraw[row][col] = isDraw[row][col + 1] = false;
                         }
@@ -1107,6 +1119,11 @@ var QRCode;
 
             return Math.floor(nNumber * 1000) / 1000;
         };
+
+        Drawing.prototype.getImgSrc = function () {
+            return this._elCanvas.toDataURL("image/png");
+            // console.log(this._elCanvas.toDataURL("image/png"));
+        }
 
         return Drawing;
     })();
@@ -1197,17 +1214,17 @@ var QRCode;
         this._htOption = {
             width: 256,
             height: 256,
-            bgWidth:350,
-            bgheight:500,
-            top:76,
-            left:76,
+            bgWidth: 350,
+            bgheight: 500,
+            top: 76,
+            left: 76,
             typeNumber: 4,
             colorDark: "#000000",
             colorLight: "#ffffff",
             correctLevel: QRErrorCorrectLevel.L,
 
             //素材
-            border:"",
+            border: "",
             eyeBorder: '',
             eyeCenter: '',
             col2: '',
@@ -1243,6 +1260,7 @@ var QRCode;
         this._el = el;
         this._oQRCode = null;
         this._oDrawing = new Drawing(this._el, this._htOption);
+        console.log(this._oDrawing)
 
         if (this._htOption.text) {
             this.makeCode(this._htOption.text);
@@ -1288,6 +1306,14 @@ var QRCode;
     QRCode.prototype.clear = function () {
         this._oDrawing.clear();
     };
+
+    /**
+     * 
+     * 返回生成图片的地址
+     */
+    QRCode.prototype.getImgUrl = function () {
+       return this._oDrawing.getImgSrc();
+    }
 
     /**
      * @name QRCode.CorrectLevel

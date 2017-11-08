@@ -29,15 +29,15 @@ export default {
         },
         {
           codeId: "code2",
-          url: require("../assets/main/view2.jpg"),
-          name: "幽径紫夜月",
+          url: require("../assets/component2/main.jpg"),
+          name: "简约方块拼凑风",
           click: "66666",
           save: "8765"
         },
         {
           codeId: "code3",
           url: require("../assets/main/view3.jpg"),
-          name: "疯狂动物城",
+          name: " 幽径紫夜月",
           click: "6952",
           save: "878"
         },
@@ -45,14 +45,14 @@ export default {
         {
           codeId: "code4",
           url: require("../assets/main/view4.jpg"),
-          name: "猫狗大战",
+          name: "疯狂动物城",
           click: "946",
           save: "105"
         },
         {
           codeId: "code5",
           url: require("../assets/main/view6.jpg"),
-          name: "简约方块拼凑风",
+          name: "猫狗大战",
           click: "946",
           save: "105"
         }

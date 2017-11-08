@@ -23,8 +23,13 @@
         <list v-on:child-say="isClick"></list>
       </div>
       <textarea  cols="30" rows="10" v-model="text" placeholder="请输入文字或者链接"></textarea>
-      <a onclick='javascript:void(0)'>点击上传二维码图片</a>
+      <a onclick='javascript:void(0)'><input onclick='javascript:void(0)' type="file" >点击上传二维码图片</a>
       <a @click="madeCode">点击生成艺术码</a>
+      <div class="download-group">
+        <a v-show="finishMade" @click="downloadImg">下载</a>
+        <a v-show="!finishMade" class="unfinish-btn">下载</a>
+      </div>
+      
     </div>
     
   </div>
@@ -41,8 +46,10 @@ export default {
   data() {
     return {
       text: "",
-      isImgShow:true,
+      isImgShow: true,
+      finishMade: false,
       // UIcomponent: "component1",
+      imgSrc: "",
       UIpath: [
         "border",
         "eyeBorder",
@@ -119,25 +126,21 @@ export default {
     // self.newQRCode();
   },
   methods: {
-    //
-    isClick:function(){
-      this.isImgShow=true;
+    //判断是否点击了列表图片
+    isClick: function() {
+      this.isImgShow = true;
+      this.finishMade = false;
       document.getElementById("qrcode").innerHTML = "";
     },
 
+    //加载所有的素材文件后执行绘制操作
     madeCode() {
-      this.imgLoad();
-    },
-
-    //加载所有的素材文件
-    imgLoad() {
       let qr = [], //存放所有 promise 的状态
         self = this,
         codeId = this.$store.state.codeId,
         UI = self.UIcomponents[codeId];
-      self.UIscource['position'] = UI.position;
-      console.log(self.UIscource);
 
+      self.UIscource["position"] = UI.position;
       for (var key in UI.path) {
         let promise = new Promise(resolve => {
           let value = new Image();
@@ -152,10 +155,13 @@ export default {
       self.UIpath.map((value, index) => {});
 
       Promise.all(qr).then(() => {
-        
-        if(self.text){
-          self.isImgShow=false;
-          self.drawQRCode();
+        if (self.text) {
+          self.isImgShow = false;
+          let promise2 = new Promise(resolve => {
+            self.drawQRCode();
+            resolve();
+          });
+          promise2.then(() => {});
         }
       });
     },
@@ -164,25 +170,97 @@ export default {
     drawQRCode() {
       var self = this;
       document.getElementById("qrcode").innerHTML = "";
-      new QRCode.QRCode(document.getElementById("qrcode"), {
+      /**
+        * QRCode的第一个参数是二维码要绘制到的dom
+        */
+      let qrcode = new QRCode.QRCode(document.getElementById("qrcode"), {
+        /**
+         * text：二维码的信息
+         */
         text: self.text,
+        /**
+         * width,height 是二维码的长宽
+         * bgWidth,bgHeight 是整张图片的大小
+         * top,left 是二维码距离整图的距离
+         */
         width: self.UIscource.position.width,
         height: self.UIscource.position.height,
         bgWidth: self.UIscource.position.bgWidth,
         bgheight: self.UIscource.position.bgHeight,
         top: self.UIscource.position.top,
         left: self.UIscource.position.left,
-        // correctLevel : QRCode.CorrectLevel.H,
+        /**
+         * 对应每种遍历情况的填充图案
+         */
         border: self.UIscource.border,
-        eyeBorder: self.UIscource.eyeBorder, //码眼边框
+        eyeBorder: self.UIscource.eyeBorder,
         eyeCenter: self.UIscource.eyeCenter,
         col2: self.UIscource.col2,
         row2: self.UIscource.row2,
         single: self.UIscource.single,
         row2col1: self.UIscource.row2col1,
         col3: self.UIscource.col3
-        // imgBorder:""
       });
+
+      new Promise(resolve => {
+        let a = qrcode.getImgUrl();
+        resolve(a);
+      }).then(a => {
+        self.imgSrc = a;
+
+        self.finishMade = true;
+      });
+    },
+    //下载原图
+    downloadImg: function() {
+
+      let self = this,imgData = self.imgSrc;
+      imgData = imgData.replace(self.fixType("png"), "image/octet-stream");
+      // 下载后的文件名设置
+      let filename = "artQrcode_" + new Date().getTime() + "." + "png";
+      // 下载
+      self.saveFile(imgData, filename);
+    },
+
+    //将mime-type改为image/octet-stream
+    fixType(type) {
+      type = type.toLowerCase().replace(/jpg/i, "jpeg");
+      var r = type.match(/png|jpeg|bmp|gif/)[0];
+      return "image/" + r;
+    },
+
+    /**
+     * 在本地进行文件保存
+     * @param  {String} data     要保存到本地的图片数据
+     * @param  {String} filename 文件名
+     */
+    saveFile(data, filename) {
+      var save_link = document.createElementNS(
+        "http://www.w3.org/1999/xhtml",
+        "a"
+      );
+      save_link.href = data;
+      save_link.download = filename;
+
+      var event = document.createEvent("MouseEvents");
+      event.initMouseEvent(
+        "click",
+        true,
+        false,
+        window,
+        0,
+        0,
+        0,
+        0,
+        0,
+        false,
+        false,
+        false,
+        false,
+        0,
+        null
+      );
+      save_link.dispatchEvent(event);
     }
   }
 };
@@ -239,17 +317,48 @@ export default {
     }
     a {
       display: inline-block;
-      width: 33%;
       height: p(50px);
       line-height: p(50px);
       background: $bg;
       border-radius: 5px;
       margin: p(5px) auto;
+      position: relative;
       &:first-of-type {
-        width: 65%;
+        width: 45%;
       }
+      &:nth-of-type(2) {
+        width: 35%;
+      }
+
       &:hover {
-        background: #444;
+        background: #333;
+      }
+      input[type="file"] {
+        opacity: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 0;
+        height: p(50px);
+        width: 100%;
+        cursor: pointer;
+      }
+    }
+    .download-group {
+      float: right;
+      vertical-align: middle;
+      width: 18%;
+      height: p(50px);
+      position: relative;
+      a {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: p(50px);
+        width: 100%;
+      }
+      .unfinish-btn {
+        background: #999;
       }
     }
     .list {
@@ -270,23 +379,27 @@ export default {
     overflow: hidden;
     .qrcode-content {
       width: p(350px);
+      height: 100%;
       background: $bg;
       position: relative;
-      line-height: p(500px);
+      background: $bg-light;
       margin: 0 auto;
-      // top: 50%;
-      // transform: translateY(-50%);
-      transition: all 0.1s;
-      -webkit-backface-visibility: hidden;
+
       .qrcode-border {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
         display: block;
         width: p(350px);
         height: auto;
       }
       #qrcode {
         position: absolute;
-        // top: p(77px);
-        // left: p(77px);
+        top: 0;
+        left: 0;
         // margin: p(-70px) 0 0 p(-70px);
         background-size: 50%;
         .qrcodeImg {
@@ -297,5 +410,4 @@ export default {
     }
   }
 }
-
 </style>

@@ -7,6 +7,7 @@ import VueAwesomeSwiper from 'vue-awesome-swiper'//轮播组件
 
 import store from './vuex/store';
 
+
 // Vue.use(qrcode);
 Vue.use(VueAwesomeSwiper);
 Vue.config.productionTip = false
