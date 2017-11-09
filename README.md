@@ -18,7 +18,7 @@ vue全家桶
 . . .
 
 ### 项目总结
-请戳![项目总结](项目总结.md)
+请戳![项目总结](问题汇总.md)
 
 ### 效果图
 ![image](http://wx1.sinaimg.cn/mw690/a73bc6a1ly1fl867ocwydj211g0gw7l0.jpg)
