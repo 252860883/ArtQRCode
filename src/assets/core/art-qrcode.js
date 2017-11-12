@@ -13,7 +13,7 @@
 
 //暴露QRCode方法
 var QRCode;
-import hidpiCanvas from '../core/hidpi-canvas';
+// import hidpiCanvas from '../core/hidpi-canvas';
 
 (function () {
     var imgSrc;
@@ -828,6 +828,7 @@ import hidpiCanvas from '../core/hidpi-canvas';
         return Drawing;
     })() : (function () { // Drawing in Canvas
         function _onMakeImage() {
+            // this._elImage.crossOrigin='anonymous';//设置图片可以跨域访问
             this._elImage.src = this._elCanvas.toDataURL("image/png");
             this._elImage.style.display = "block";
             this._elCanvas.style.display = "none";
@@ -943,7 +944,7 @@ import hidpiCanvas from '../core/hidpi-canvas';
             this._elImage.style.height = htOption.bgheight + 'px';
 
             this._elImage.style.display = "none";
-            this._elImage.setAttribute('crossOrigin', 'anonymous');//设置图片可以跨域访问
+            // this._elImage.setAttribute('crossOrigin', 'anonymous');//设置图片可以跨域访问 
             this._el.appendChild(this._elImage);
             this._bSupportDataURI = null;
         };
@@ -1122,7 +1123,6 @@ import hidpiCanvas from '../core/hidpi-canvas';
 
         Drawing.prototype.getImgSrc = function () {
             return this._elCanvas.toDataURL("image/png");
-            // console.log(this._elCanvas.toDataURL("image/png"));
         }
 
         return Drawing;
@@ -1260,7 +1260,7 @@ import hidpiCanvas from '../core/hidpi-canvas';
         this._el = el;
         this._oQRCode = null;
         this._oDrawing = new Drawing(this._el, this._htOption);
-        console.log(this._oDrawing)
+        // console.log(this._oDrawing)
 
         if (this._htOption.text) {
             this.makeCode(this._htOption.text);

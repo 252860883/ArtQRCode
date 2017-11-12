@@ -7,7 +7,6 @@
           <img class="qrcode-border" :src="this.$store.state.url" v-if="isImgShow">
       </div>
     </div>
-
     <div class="right">
       <div class="instruction">
         <div class="title">
@@ -29,17 +28,14 @@
         <a v-show="finishMade" @click="downloadImg">下载</a>
         <a v-show="!finishMade" class="unfinish-btn">下载</a>
       </div>
-      
     </div>
-    
   </div>
-    
 </div>
 </template>
 
 <script>
 // import QRCode from "qrcodejs2";
-import QRCode from "../core/art-qrcode";
+import QRCode from "../assets/core/art-qrcode";
 import list from "../components/list";
 
 export default {
@@ -130,7 +126,8 @@ export default {
     isClick: function() {
       this.isImgShow = true;
       this.finishMade = false;
-      document.getElementById("qrcode").innerHTML = "";
+      // document.getElementById("qrcode").innerHTML = "";
+      document.querySelector("#qrcode").innerHTML = "";
     },
 
     //加载所有的素材文件后执行绘制操作
@@ -144,6 +141,7 @@ export default {
       for (var key in UI.path) {
         let promise = new Promise(resolve => {
           let value = new Image();
+          // value.crossOrigin='anonymous';
           value.src = UI.path[key];
           self.UIscource[key] = value;
           value.onload = () => {
@@ -201,67 +199,31 @@ export default {
         row2col1: self.UIscource.row2col1,
         col3: self.UIscource.col3
       });
-
       new Promise(resolve => {
         let a = qrcode.getImgUrl();
         resolve(a);
       }).then(a => {
         self.imgSrc = a;
-
         self.finishMade = true;
       });
     },
     //下载原图
     downloadImg: function() {
-
-      let self = this,imgData = self.imgSrc;
-      imgData = imgData.replace(self.fixType("png"), "image/octet-stream");
+      let self = this,
+        imgData = self.imgSrc;
+      //将mime-type改为image/octet-stream,强制让浏览器下载
+      imgData = imgData.replace("image/png", "image/octet-stream");
+      // 创建a标签
+      var save_link = document.createElement("a");
+      save_link.href = imgData;
       // 下载后的文件名设置
-      let filename = "artQrcode_" + new Date().getTime() + "." + "png";
-      // 下载
-      self.saveFile(imgData, filename);
+      save_link.download = "artQrcode_" + new Date().getTime() + "." + "png";
+      let e = document.createEvent("MouseEvents");
+      e.initMouseEvent("click");
+      save_link.dispatchEvent(e);
     },
 
-    //将mime-type改为image/octet-stream
-    fixType(type) {
-      type = type.toLowerCase().replace(/jpg/i, "jpeg");
-      var r = type.match(/png|jpeg|bmp|gif/)[0];
-      return "image/" + r;
-    },
-
-    /**
-     * 在本地进行文件保存
-     * @param  {String} data     要保存到本地的图片数据
-     * @param  {String} filename 文件名
-     */
-    saveFile(data, filename) {
-      var save_link = document.createElementNS(
-        "http://www.w3.org/1999/xhtml",
-        "a"
-      );
-      save_link.href = data;
-      save_link.download = filename;
-
-      var event = document.createEvent("MouseEvents");
-      event.initMouseEvent(
-        "click",
-        true,
-        false,
-        window,
-        0,
-        0,
-        0,
-        0,
-        0,
-        false,
-        false,
-        false,
-        false,
-        0,
-        null
-      );
-      save_link.dispatchEvent(event);
-    }
+    saveFile(data, filename) {}
   }
 };
 </script>
@@ -272,11 +234,11 @@ export default {
   width: p(1200px);
   margin: 0 auto;
   display: flex;
-  // height: p(600px);
-
+  justify-content: space-between;
   .right {
-    flex: 0 1 50%;
-    width: p(700px);
+    flex-grow: 0;
+    flex-shrink: 1;
+    flex-basis: 60%;
     height: p(400px);
     padding: p(25px) p(25px) p(50px) p(75px);
     .instruction {
@@ -369,8 +331,9 @@ export default {
   }
 
   .left {
-    flex: 0 1 40%;
-    width: p(400px);
+    flex-grow: 0;
+    flex-shrink: 1;
+    flex-basis: 30%;
     height: p(500px);
     background: $bg-light;
     border-radius: p(10px);
