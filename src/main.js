@@ -4,11 +4,9 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import VueAwesomeSwiper from 'vue-awesome-swiper'//轮播组件
-
 import store from './vuex/store';
 import 'babel-polyfill';
 
-// Vue.use(qrcode);
 Vue.use(VueAwesomeSwiper);
 Vue.config.productionTip = false
 

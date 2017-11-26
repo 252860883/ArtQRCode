@@ -3,22 +3,25 @@
   <div class="content">
     <div class="left">
       <div class="qrcode-content">
-          <div id="qrcode"></div>
+        <div class="loading" v-if="showLoading">
+          <img src="../assets/loading.gif" alt="">
+        </div>
+        <!-- 二维码插入 -->
+          <div id="qrcode"></div> 
           <img class="qrcode-border" :src="this.$store.state.url" v-if="isImgShow">
       </div>
     </div>
+
     <div class="right">
       <div class="instruction">
         <div class="title">
           <h2>{{this.$store.state.name}}</h2>
-          <!-- <span>编号ID:{{lists.codeId}}</span>
-          <span>收藏:{{lists.save}}次</span> -->
           <div class="how">
             <span>提示：您可以通过上传黑白二维码或输入链接、文字方式生产ArtQRcode</span>
           </div>
         </div>
       </div>
-      <div class="list">
+      <div class="list" @mousewheel="mousemove">
         <list v-on:child-say="isClick"></list>
       </div>
       <textarea  cols="30" rows="10" v-model="text" placeholder="请输入文字或者链接"></textarea>
@@ -34,7 +37,6 @@
 </template>
 
 <script>
-// import QRCode from "qrcodejs2";
 import QRCode from "../assets/core/art-qrcode";
 import list from "../components/list";
 
@@ -44,18 +46,8 @@ export default {
       text: "",
       isImgShow: true,
       finishMade: false,
-      // UIcomponent: "component1",
+      showLoading: true,
       imgSrc: "",
-      UIpath: [
-        "border",
-        "eyeBorder",
-        "eyeCenter",
-        "col2",
-        "row2",
-        "single",
-        "row2col1",
-        "col3"
-      ],
 
       UIcomponents: {
         code1: {
@@ -84,7 +76,7 @@ export default {
         },
         code2: {
           codeId: "678",
-          name: "烘培工坊",
+          name: "简约方块拼凑风",
           save: "768552121",
           url: require("../assets/component2/main.jpg"),
           position: {
@@ -103,7 +95,31 @@ export default {
             row2: require("../assets/component2/row2.png"),
             single: require("../assets/component2/single.png"),
             row2col1: require("../assets/component2/row2col1.png"),
-            col3: require("../assets/component2/col3.png")
+            col3: require("../assets/component2/col3.png"),
+            xie3: require("../assets/component2/xie3.png")
+          }
+        },
+        code3: {
+          codeId: "678",
+          name: "pink girl",
+          save: "768552121",
+          url: require("../assets/component2/main.jpg"),
+          position: {
+            top: 80,
+            left: 75,
+            width: 195,
+            height: 195,
+            bgWidth: 350,
+            bgHeight: 500
+          },
+          path: {
+            border: require("../assets/component3/border.jpg"),
+            eyeBorder: require("../assets/component3/eyeBorder.png"),
+            eyeCenter: require("../assets/component3/eyeCenter.png"),
+            col2: require("../assets/component3/col2.png"),
+            row2: require("../assets/component3/row2.png"),
+            single: require("../assets/component3/single.png"),
+            row2col1: require("../assets/component3/row2col1.png")
           }
         }
       },
@@ -126,8 +142,11 @@ export default {
     isClick: function() {
       this.isImgShow = true;
       this.finishMade = false;
-      // document.getElementById("qrcode").innerHTML = "";
       document.querySelector("#qrcode").innerHTML = "";
+    },
+    //列表滑动事件
+    mousemove() {
+      // console.log(this);
     },
 
     //加载所有的素材文件后执行绘制操作
@@ -137,11 +156,14 @@ export default {
         codeId = this.$store.state.codeId,
         UI = self.UIcomponents[codeId];
 
+      self.isImgShow = false;
+      self.showLoading = true;
+      self.UIscource={};
       self.UIscource["position"] = UI.position;
+      //加载素材文件
       for (var key in UI.path) {
         let promise = new Promise(resolve => {
           let value = new Image();
-          // value.crossOrigin='anonymous';
           value.src = UI.path[key];
           self.UIscource[key] = value;
           value.onload = () => {
@@ -150,16 +172,16 @@ export default {
         });
         qr.push(promise);
       }
-      self.UIpath.map((value, index) => {});
 
       Promise.all(qr).then(() => {
         if (self.text) {
-          self.isImgShow = false;
           let promise2 = new Promise(resolve => {
             self.drawQRCode();
             resolve();
           });
-          promise2.then(() => {});
+          promise2.then(() => {
+            // self.showLoading=false;
+          });
         }
       });
     },
@@ -198,6 +220,7 @@ export default {
         single: self.UIscource.single,
         row2col1: self.UIscource.row2col1,
         col3: self.UIscource.col3
+        // xie3:self.UIscource.xie3
       });
       new Promise(resolve => {
         let a = qrcode.getImgUrl();
@@ -222,7 +245,6 @@ export default {
       e.initMouseEvent("click");
       save_link.dispatchEvent(e);
     },
-
     saveFile(data, filename) {}
   }
 };
@@ -231,14 +253,13 @@ export default {
 <style lang="scss">
 @import "../assets/scss/all.scss";
 .content {
-  width: p(1200px);
+  width: 100%;
+  max-width: p(1200px);
   margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
+  // display: flex;
+  // justify-content: space-between;
   .right {
-    flex-grow: 0;
-    flex-shrink: 1;
-    flex-basis: 60%;
+    // float: right;
     height: p(400px);
     padding: p(25px) p(25px) p(50px) p(75px);
     .instruction {
@@ -325,28 +346,43 @@ export default {
     }
     .list {
       // overflow: scroll;
-      width: 100%;
-      // height: p(300px);
+      width: p(700px);
+      overflow: scroll;
+      height: p(230px);
     }
   }
 
   .left {
-    flex-grow: 0;
-    flex-shrink: 1;
-    flex-basis: 30%;
+    width: p(350px);
+    // float: left;
     height: p(500px);
     background: $bg-light;
     border-radius: p(10px);
     padding: p(15px);
     margin: p(15px) auto;
     overflow: hidden;
+
     .qrcode-content {
-      width: p(350px);
+      // width: p(350px);
       height: 100%;
       background: $bg;
       position: relative;
       background: $bg-light;
       margin: 0 auto;
+      .loading {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        width: 50px;
+        height: 50px;
+        img {
+          width: 50px;
+          height: 50px;
+        }
+      }
 
       .qrcode-border {
         position: absolute;

@@ -917,6 +917,7 @@ var QRCode;
             this.single = htOption.single;
             this.row2col1 = htOption.row2col1;
             this.col3 = htOption.col3;
+            this.xie3=htOption.xie3;
 
             this._elCanvas = document.createElement("canvas");
             this._elCanvas.style.display = "none";
@@ -1022,6 +1023,11 @@ var QRCode;
                         else if (this.eyeCenter && col + 1 < nCount && row + 1 < nCount && isDraw[row][col + 1] && isDraw[row + 1][col] && isDraw[row + 1][col + 1]) {
                             _oContext.drawImage(this.eyeCenter, nLeft, nTop, nWidth * 2, nHeight * 2);
                             isDraw[row][col] = isDraw[row + 1][col] = isDraw[row][col + 1] = isDraw[row + 1][col + 1] = false;
+                        }
+                        //xie3  的时候
+                        else if (this.xie3 && col + 2 < nCount && row + 2 < nCount && isDraw[row+1][col + 1] && isDraw[row + 2][col+2]) {
+                            _oContext.drawImage(this.xie3, nLeft, nTop, nWidth * 3, nHeight * 3);
+                            isDraw[row][col] = isDraw[row + 1][col+1] = isDraw[row+2][col + 2] = false;
                         }
 
                         //row2 col1 的时候
@@ -1232,6 +1238,7 @@ var QRCode;
             single: '',
             row2col1: '',
             col3: '',
+            xie3:''
         };
         // console.log(this._htOption)
 

@@ -37,7 +37,7 @@ export default {
         {
           codeId: "code3",
           url: require("../assets/main/view3.jpg"),
-          name: " 幽径紫夜月",
+          name: "粉色系girl",
           click: "6952",
           save: "878"
         },
@@ -75,10 +75,11 @@ export default {
 @import "../assets/scss/all.scss";
 
 .view-content {
-  width: p(700px);
+  // width: 100%;
   height: p(200px);
   margin: p(10px) 0;
-  overflow: auto;
+  // overflow-x:srcoll;
+  // overflow: scroll;
 
   .col-view-border {
     display: inline-block;
