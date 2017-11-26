@@ -18,8 +18,11 @@ vue全家桶
 二维码名片设计  
 . . .
 
+### 效果图
+![image](https://wx2.sinaimg.cn/mw1024/a73bc6a1gy1fluq7o5drlj20yj0hpk0d.jpg)
+
+
 ### 项目总结
 请戳![项目总结](问题汇总.md)
 
-### 效果图
-![image](http://wx1.sinaimg.cn/mw690/a73bc6a1ly1fl867ocwydj211g0gw7l0.jpg)
+
