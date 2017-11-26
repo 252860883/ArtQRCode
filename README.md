@@ -19,7 +19,13 @@ vue全家桶
 . . .
 
 ### 效果图
-![image](https://wx2.sinaimg.cn/mw1024/a73bc6a1gy1fluq7o5drlj20yj0hpk0d.jpg)
+#### 界面
+![image](http://wx2.sinaimg.cn/mw690/a73bc6a1ly1flv9o0y775j20yj0hpk0d.jpg)  
+#### 生成艺术二维码示例：
+![image](http://wx4.sinaimg.cn/mw690/a73bc6a1ly1flv9oyf8h2j20jg0rswnw.jpg)
+![image](http://wx2.sinaimg.cn/mw690/a73bc6a1ly1flv9oyykfdj20jg0rs0wk.jpg)
+![image](http://wx4.sinaimg.cn/mw690/a73bc6a1ly1flv9p0poa9j20jg0rs1kx.jpg)
+
 
 
 ### 项目总结
