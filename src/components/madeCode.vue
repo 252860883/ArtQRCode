@@ -25,7 +25,9 @@
         <list v-on:child-say="isClick"></list>
       </div>
       <textarea  cols="30" rows="10" v-model="text" placeholder="请输入文字或者链接"></textarea>
-      <a onclick='javascript:void(0)'><input onclick='javascript:void(0)' type="file" >点击上传二维码图片</a>
+      <a @click='update'>
+        <!-- <input  type="button"> -->
+        点击上传二维码图片</a>
       <a @click="madeCode">点击生成艺术码</a>
       <div class="download-group">
         <a v-show="finishMade" @click="downloadImg">下载</a>
@@ -33,12 +35,15 @@
       </div>
     </div>
   </div>
+
+  <error :errorMsg="errorMsg" v-show="errShow"></error>
 </div>
 </template>
 
 <script>
 import QRCode from "../assets/core/art-qrcode";
 import list from "../components/list";
+import error from "../components/error";
 
 export default {
   data() {
@@ -48,7 +53,8 @@ export default {
       finishMade: false,
       showLoading: true,
       imgSrc: "",
-
+      errorMsg: "错误",
+      errShow: false,
       UIcomponents: {
         code1: {
           codeId: "678",
@@ -127,7 +133,8 @@ export default {
     };
   },
   components: {
-    list
+    list,
+    error
   },
   mounted() {
     // let codeId = this.$store.state.codeId;
@@ -144,6 +151,15 @@ export default {
       this.finishMade = false;
       document.querySelector("#qrcode").innerHTML = "";
     },
+    //上传图片
+    update() {
+      this.errorMsg = "该版本暂时不支持上传二维码";
+      this.errShow = true;
+      let self = this;
+      setTimeout(() => {
+        self.errShow = false;
+      }, 2500);
+    },
     //列表滑动事件
     mousemove() {
       // console.log(this);
@@ -158,7 +174,7 @@ export default {
 
       self.isImgShow = false;
       self.showLoading = true;
-      self.UIscource={};
+      self.UIscource = {};
       self.UIscource["position"] = UI.position;
       //加载素材文件
       for (var key in UI.path) {
@@ -234,6 +250,17 @@ export default {
     downloadImg: function() {
       let self = this,
         imgData = self.imgSrc;
+
+      //IE浏览器下
+      if (!!window.ActiveXObject || "ActiveXObject" in window) {
+        this.errorMsg = "该浏览器暂不支持下载，您可以 右键-图片另存为";
+        this.errShow = true;
+        let self = this;
+        setTimeout(() => {
+          self.errShow = false;
+        }, 2500);
+      }
+
       //将mime-type改为image/octet-stream,强制让浏览器下载
       imgData = imgData.replace("image/png", "image/octet-stream");
       // 创建a标签
@@ -244,8 +271,8 @@ export default {
       let e = document.createEvent("MouseEvents");
       e.initMouseEvent("click");
       save_link.dispatchEvent(e);
-    },
-    saveFile(data, filename) {}
+    }
+    // saveFile(data, filename) {}
   }
 };
 </script>
