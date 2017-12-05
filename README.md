@@ -4,7 +4,43 @@
 demo请戳：http://www.duhonghui.top/artqrcode/#/
 ### 前提
 核心生成代码，基于QRcode.js进行封装，实现艺术图案填充  
-vue全家桶  
+vue全家桶
+合成二维码的代码
+<pre>
+/**
+ * import QRcode from 'core.js';
+ * let let qrcode = new QRCode.QRCode(DOMElement, {Options配置});
+ */
+
+let qrcode = new QRCode.QRCode(document.getElementById("qrcode"), {
+        /**
+         * text：二维码的信息
+         */
+        text: self.text,
+        /**
+         * width,height 是二维码的长宽
+         * bgWidth,bgHeight 是整张图片的大小
+         * top,left 是二维码距离整图的距离
+         */
+        width: self.UIscource.position.width,
+        height: self.UIscource.position.height,
+        bgWidth: self.UIscource.position.bgWidth,
+        bgheight: self.UIscource.position.bgHeight,
+        top: self.UIscource.position.top,
+        left: self.UIscource.position.left,
+        /**
+         * 对应每种情况的填充图案
+         */
+        border: self.UIscource.border,//背景图的图片资源
+        eyeBorder: self.UIscource.eyeBorder,//码眼的边框
+        eyeCenter: self.UIscource.eyeCenter,//码眼的中心
+        col2: self.UIscource.col2,
+        row2: self.UIscource.row2,
+        single: self.UIscource.single,
+        row2col1: self.UIscource.row2col1,
+        col3: self.UIscource.col3
+      });
+</pre>
 
 ### 功能
 选择二维码样式  
