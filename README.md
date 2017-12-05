@@ -3,9 +3,10 @@
 这版先做一个纯js合成艺术二维码的缩减版，暂时只能通过输入文字生成，后续会实现一个前后端分离的项目，实现更复杂的功能.  
 demo请戳：http://www.duhonghui.top/artqrcode/#/
 ### 前提
-核心生成代码，基于QRcode.js进行封装，实现艺术图案填充  
-vue全家桶
-合成二维码的代码
+核心生成代码，基于QRcode.js进行封装，canvas实现艺术图案填充  
+vue全家桶  
+
+合成二维码的代码:
 <pre>
 /**
  * import QRcode from 'core.js';
