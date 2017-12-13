@@ -7,7 +7,7 @@ demo请戳：http://www.duhonghui.top/artqrcode/#/
 vue全家桶  
 
 合成二维码的代码:
-<pre>
+```js
 /**
  * import QRcode from 'core.js';
  * let let qrcode = new QRCode.QRCode(DOMElement, {Options配置});
@@ -41,7 +41,7 @@ let qrcode = new QRCode.QRCode(document.getElementById("qrcode"), {
         row2col1: self.UIscource.row2col1,
         col3: self.UIscource.col3
       });
-</pre>
+```
 
 ### 功能
 选择二维码样式  
