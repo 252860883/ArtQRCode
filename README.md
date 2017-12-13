@@ -8,11 +8,14 @@ vue全家桶
 
 合成二维码的代码:
 ```js
+ 
 /**
+ * 组件中引入
  * import QRcode from 'core.js';
  * let let qrcode = new QRCode.QRCode(DOMElement, {Options配置});
  */
-
+ 
+// 组件中引入配置
 let qrcode = new QRCode.QRCode(document.getElementById("qrcode"), {
         /**
          * text：二维码的信息
