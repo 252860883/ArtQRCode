@@ -1,12 +1,16 @@
 # Art-QRCode-min
 ### 说明
 这版先做一个纯js合成艺术二维码的缩减版，暂时只能通过输入文字生成，后续会实现一个前后端分离的项目，实现更复杂的功能.  
+
+目前暂时只设计了三款二维码，后续可能会依次上传，稍后会附上设计规范，可以自行设计上传。  
+  
 demo请戳：http://www.duhonghui.top/artqrcode/#/
 ### 前提
 核心生成代码，基于QRcode.js进行封装，canvas实现艺术图案填充  
-vue全家桶  
+vue全家桶  
+...
 
-合成二维码的代码:
+合成二维码代码:
 ```js
  
 /**
@@ -46,8 +50,8 @@ let qrcode = new QRCode.QRCode(document.getElementById("qrcode"), {
       });
 ```
 
-### 功能
-选择二维码样式  
+### 功能介绍
+选择二维码样式  
 输入链接或者文字    
 点击生成艺术二维码  
 导出高清图片  
@@ -62,10 +66,7 @@ let qrcode = new QRCode.QRCode(document.getElementById("qrcode"), {
 #### 界面
 ![image](http://wx2.sinaimg.cn/mw690/a73bc6a1ly1flv9o0y775j20yj0hpk0d.jpg)  
 #### 生成艺术二维码示例：
-![image](http://wx4.sinaimg.cn/mw690/a73bc6a1ly1flv9oyf8h2j20jg0rswnw.jpg)
-![image](http://wx2.sinaimg.cn/mw690/a73bc6a1ly1flv9oyykfdj20jg0rs0wk.jpg)
-![image](http://wx4.sinaimg.cn/mw690/a73bc6a1ly1flv9p0poa9j20jg0rs1kx.jpg)
-
+![image](http://wx2.sinaimg.cn/mw690/a73bc6a1ly1fmeydtz4jej21kw0qzgz6.jpg)
 
 
 ### 项目总结
