@@ -38,7 +38,8 @@ let qrcode = new QRCode.QRCode(document.getElementById("qrcode"), {
         left: self.UIscource.position.left,
         /**
          * 对应每种情况的填充图案
-         */
+         * 切记需要等图片加载完毕再执行绘制的代码，否则会报错
+         */
         border: self.UIscource.border,//背景图的图片资源
         eyeBorder: self.UIscource.eyeBorder,//码眼的边框
         eyeCenter: self.UIscource.eyeCenter,//码眼的中心
