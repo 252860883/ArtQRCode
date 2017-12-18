@@ -12,8 +12,10 @@ vue全家桶  
   
 ### 素材尺寸以及命名说明
 
-![image](http://wx3.sinaimg.cn/mw690/a73bc6a1ly1fml6ed2m30j20s00gzmz1.jpg)  
-图中单位尺寸为 50px ，黑字为该素材在下面的代码中的命名
+![image](http://wx3.sinaimg.cn/mw690/a73bc6a1ly1fml6ed2m30j20s00gzmz1.jpg)    
+
+图中单位尺寸为 50px ，黑字为该素材在下面的代码中的命名。  
+注：灰色浅底为辅助展示，实际裁剪时并没有灰色底，裁剪图片一律为png格式的透明底。
 
 合成二维码代码:
 ```js
