@@ -48,14 +48,15 @@ let qrcode = new QRCode.QRCode(document.getElementById("qrcode"), {
          * 对应每种情况的填充图案
          * 切记需要等图片加载完毕再执行绘制的代码，否则会报错
          */
-        border: self.UIscource.border,//背景图的图片资源
-        eyeBorder: self.UIscource.eyeBorder,//码眼的边框
-        eyeCenter: self.UIscource.eyeCenter,//码眼的中心
-        col2: self.UIscource.col2,
-        row2: self.UIscource.row2,
+        border: self.UIscource.border,
+        eye: self.UIscource.eye,
+        row4: self.UIscource.row4,
+        row3: self.UIscource.row3,
+        row2col3:self.UIscource.row2col3,
+        row3col2:self.UIscource.row3col2,
         single: self.UIscource.single,
-        row2col1: self.UIscource.row2col1,
-        col3: self.UIscource.col3
+        row2col2: self.UIscource.row2col2,
+        corner:self.UIscource.corner
       });
 ```
 
