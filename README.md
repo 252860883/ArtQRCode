@@ -11,7 +11,8 @@ vue全家桶  
 ...
   
   
-素材尺寸以及命名说明：  
+素材尺寸以及命名说明:  
+
 ![image](http://wx3.sinaimg.cn/mw690/a73bc6a1ly1fml6ed2m30j20s00gzmz1.jpg)
 
 合成二维码代码:
