@@ -9,6 +9,10 @@ demo请戳：http://www.duhonghui.top/artqrcode/#/
 核心生成代码，基于QRcode.js进行封装，canvas实现艺术图案填充  
 vue全家桶  
 ...
+  
+  
+素材尺寸以及命名说明：  
+![image](http://wx3.sinaimg.cn/mw690/a73bc6a1ly1fml6ed2m30j20s00gzmz1.jpg)
 
 合成二维码代码:
 ```js
