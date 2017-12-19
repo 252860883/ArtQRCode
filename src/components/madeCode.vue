@@ -80,6 +80,7 @@ export default {
             row3col2: require("../assets/component3/row3col2.png"),
             row2col2: require("../assets/component3/row2col2.png"),
             corner:require("../assets/component3/corner.png")
+            
           }
         },
         code2: {
