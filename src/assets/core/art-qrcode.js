@@ -910,14 +910,15 @@ var QRCode;
             this._htOption = htOption;
 
             this.border = htOption.border;
-            this.eyeBorder = htOption.eyeBorder;
-            this.eyeCenter = htOption.eyeCenter;
+            this.eye = htOption.eye;
             this.col2 = htOption.col2;
-            this.row2 = htOption.row2;
+            this.row4 = htOption.row4;
+            this.row3 = htOption.row3;
             this.single = htOption.single;
-            this.row2col1 = htOption.row2col1;
-            this.col3 = htOption.col3;
-            this.xie3=htOption.xie3;
+            this.row2col3 = htOption.row2col3;
+            this.row3col2 = htOption.row3col2;
+            this.row2col2 = htOption.row2col2;
+            this.corner=htOption.corner;
 
             this._elCanvas = document.createElement("canvas");
             this._elCanvas.style.display = "none";
@@ -1003,48 +1004,57 @@ var QRCode;
                     // var colorRandom = ['#7e0043', '#834e00', '#31004a', '#7d0022', '#005982', '#001c58', '003567'];
 
                     if (isDraw[row][col]) {
+                        // //绘制码眼
+                        // if (this.eyeCenter && row == 2 && col == 2 || row == nCount - 5 && col == 2 || row == 2 && col == nCount - 5) {
+                        //     _oContext.drawImage(this.eyeCenter, nLeft, nTop, nWidth * 3, nHeight * 3);
+                        //     for (var i = 0; i < 3; i++) {
+                        //         for (var j = 0; j < 3; j++) {
+                        //             isDraw[row + i][col + j] = false;
+                        //         }
+                        //     }
+                        // }
+
                         //绘制码眼
-                        if (this.eyeCenter && row == 2 && col == 2 || row == nCount - 5 && col == 2 || row == 2 && col == nCount - 5) {
-                            _oContext.drawImage(this.eyeCenter, nLeft, nTop, nWidth * 3, nHeight * 3);
-                            for (var i = 0; i < 3; i++) {
-                                for (var j = 0; j < 3; j++) {
-                                    isDraw[row + i][col + j] = false;
+                        if (this.eye && row == 0 && col == 0 || row + 7 == nCount && col == 0 || row == 0 && col + 7 == nCount) {
+                            _oContext.drawImage(this.eye, nLeft, nTop, nWidth * 7, nHeight * 7);
+                            for (var i = 0; i < 7; i++) {
+                                for(var j=0;j<7;j++){
+                                    isDraw[row+i][col + j]= false;
                                 }
                             }
+                        } 
+                        //row2col3
+                        else if (this.row2col3 && row + 1 < nCount && col+2<nCount  && isDraw[row+1][col] &&isDraw[row][col+1] && isDraw[row + 1][col+1] && isDraw[row][col+2] && isDraw[row+1][col+2]) {
+                            _oContext.drawImage(this.row2col3, nLeft, nTop, nWidth * 3, nHeight * 2);
+                            isDraw[row][col] = isDraw[row + 1][col] = isDraw[row][col+1] = isDraw[row + 1][col+1]=isDraw[row][col+2] = isDraw[row+1][col+2] =false;
                         }
-                        //绘制码眼边框
-                        else if (this.eyeBorder && row == 0 && col == 0 || row + 7 == nCount && col == 0 || row == 0 && col + 7 == nCount) {
-                            _oContext.drawImage(this.eyeBorder, nLeft, nTop, nWidth * 7, nHeight * 7);
-                            for (var i = 0; i < 7; i++) {
-                                isDraw[row][col + i] = isDraw[row + 6][col + i] = isDraw[row + i][col] = isDraw[row + i][col + 6] = false;
-                            }
+                        // row3col2
+                        else if (this.row3col2 && row + 2 < nCount && col+1<nCount  && isDraw[row+1][col] && isDraw[row + 2][col] && isDraw[row+1][col+1] && isDraw[row+2][col+1] && isDraw[row][col+1]) {
+                            _oContext.drawImage(this.row3col2, nLeft, nTop, nWidth * 2, nHeight * 3);
+                            isDraw[row][col] = isDraw[row + 1][col] = isDraw[row+2][col] = isDraw[row + 1][col+1]=isDraw[row+2][col+1] = isDraw[row][col+1]=false;
                         }
+                        // row4的时候
+                        else if (this.row4 && row + 3 < nCount  && isDraw[row+1][col] && isDraw[row + 2][col] && isDraw[row + 3][col]) {
+                            _oContext.drawImage(this.row4, nLeft, nTop, nWidth * 1, nHeight * 4);
+                            isDraw[row][col] = isDraw[row + 1][col] = isDraw[row+2][col] = isDraw[row + 3][col] = false;
+                        }
+
                         //正方形的时候
-                        else if (this.eyeCenter && col + 1 < nCount && row + 1 < nCount && isDraw[row][col + 1] && isDraw[row + 1][col] && isDraw[row + 1][col + 1]) {
-                            _oContext.drawImage(this.eyeCenter, nLeft, nTop, nWidth * 2, nHeight * 2);
+                        else if (this.row2col2 && col + 1 < nCount && row + 1 < nCount && isDraw[row][col + 1] && isDraw[row + 1][col] && isDraw[row + 1][col + 1]) {
+                            _oContext.drawImage(this.row2col2, nLeft, nTop, nWidth * 2, nHeight * 2);
                             isDraw[row][col] = isDraw[row + 1][col] = isDraw[row][col + 1] = isDraw[row + 1][col + 1] = false;
-                        }
-                        //xie3  的时候
-                        else if (this.xie3 && col + 2 < nCount && row + 2 < nCount && isDraw[row+1][col + 1] && isDraw[row + 2][col+2]) {
-                            _oContext.drawImage(this.xie3, nLeft, nTop, nWidth * 3, nHeight * 3);
-                            isDraw[row][col] = isDraw[row + 1][col+1] = isDraw[row+2][col + 2] = false;
                         }
 
                         //row2 col1 的时候
-                        else if (this.row2col1 && col + 1 < nCount && row + 1 < nCount && isDraw[row][col + 1] && isDraw[row + 1][col]) {
-                            _oContext.drawImage(this.row2col1, nLeft, nTop, nWidth * 2, nHeight * 2);
+                        else if (this.corner && col + 1 < nCount && row + 1 < nCount && isDraw[row][col + 1] && isDraw[row + 1][col]) {
+                            _oContext.drawImage(this.corner, nLeft, nTop, nWidth * 2, nHeight * 2);
                             isDraw[row][col] = isDraw[row + 1][col] = isDraw[row][col + 1] = false;
-                        }
-                        //col3的时候
-                        else if (this.col3 && row + 2 < nCount && isDraw[row + 1][col] && isDraw[row + 2][col]) {
-                            _oContext.drawImage(this.col3, nLeft, nTop, nWidth, nHeight * 3);
-                            isDraw[row][col] = isDraw[row + 1][col] = isDraw[row + 2][col] = false;
                         }
 
                         //row2时绘制 
-                        else if (this.row2 && row + 1 < nCount && isDraw[row + 1][col]) {
-                            _oContext.drawImage(this.row2, nLeft, nTop, nWidth, nHeight * 2);
-                            isDraw[row][col] = isDraw[row + 1][col] = false;
+                        else if (this.row3 && row + 2 < nCount && isDraw[row + 1][col] && isDraw[row + 2][col]) {
+                            _oContext.drawImage(this.row3, nLeft, nTop, nWidth, nHeight * 3);
+                            isDraw[row][col] = isDraw[row + 1][col] = isDraw[row + 2][col] = false;
                         }
 
                         //col2时绘制
@@ -1229,16 +1239,16 @@ var QRCode;
             colorLight: "#ffffff",
             correctLevel: QRErrorCorrectLevel.L,
 
-            //素材
-            border: "",
-            eyeBorder: '',
-            eyeCenter: '',
-            col2: '',
-            row2: '',
-            single: '',
-            row2col1: '',
-            col3: '',
-            xie3:''
+            //素材获取
+            eye :"",
+            col2 : "",
+            row4 : "",
+            row3 : "",
+            single : "",
+            row2col3 : "",
+            row3col2 : "",
+            row2col2 : "",
+            corner : ""
         };
         // console.log(this._htOption)
 

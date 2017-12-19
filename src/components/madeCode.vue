@@ -71,13 +71,15 @@ export default {
           },
           path: {
             border: require("../assets/component1/border.png"),
-            eyeBorder: require("../assets/component1/eyeBorder.png"),
-            eyeCenter: require("../assets/component1/eyeCenter.png"),
-            col2: require("../assets/component1/col2.png"),
-            row2: require("../assets/component1/row2.png"),
-            single: require("../assets/component1/single.png"),
-            row2col1: require("../assets/component1/row2col1.png"),
-            col3: require("../assets/component1/col3.png")
+            eye: require("../assets/component3/eye.png"),
+            col2: require("../assets/component3/col2.png"),
+            row3: require("../assets/component3/row3.png"),
+            row4: require("../assets/component3/row4.png"),
+            single: require("../assets/component3/single.png"),
+            row2col3: require("../assets/component3/row2col3.png"),
+            row3col2: require("../assets/component3/row3col2.png"),
+            row2col2: require("../assets/component3/row2col2.png"),
+            corner:require("../assets/component3/corner.png")
           }
         },
         code2: {
@@ -95,14 +97,15 @@ export default {
           },
           path: {
             border: require("../assets/component2/border.jpg"),
-            eyeBorder: require("../assets/component2/eyeBorder.png"),
-            eyeCenter: require("../assets/component2/eyeCenter.png"),
-            col2: require("../assets/component2/col2.png"),
-            row2: require("../assets/component2/row2.png"),
-            single: require("../assets/component2/single.png"),
-            row2col1: require("../assets/component2/row2col1.png"),
-            col3: require("../assets/component2/col3.png"),
-            xie3: require("../assets/component2/xie3.png")
+            eye: require("../assets/component3/eye.png"),
+            col2: require("../assets/component3/col2.png"),
+            row3: require("../assets/component3/row3.png"),
+            row4: require("../assets/component3/row4.png"),
+            single: require("../assets/component3/single.png"),
+            row2col3: require("../assets/component3/row2col3.png"),
+            row3col2: require("../assets/component3/row3col2.png"),
+            row2col2: require("../assets/component3/row2col2.png"),
+            corner:require("../assets/component3/corner.png")
           }
         },
         code3: {
@@ -120,12 +123,15 @@ export default {
           },
           path: {
             border: require("../assets/component3/border.jpg"),
-            eyeBorder: require("../assets/component3/eyeBorder.png"),
-            eyeCenter: require("../assets/component3/eyeCenter.png"),
+            eye: require("../assets/component3/eye.png"),
             col2: require("../assets/component3/col2.png"),
-            row2: require("../assets/component3/row2.png"),
+            row3: require("../assets/component3/row3.png"),
+            // row4: require("../assets/component3/row4.png"),
             single: require("../assets/component3/single.png"),
-            row2col1: require("../assets/component3/row2col1.png")
+            row2col3: require("../assets/component3/row2col3.png"),
+            row3col2: require("../assets/component3/row3col2.png"),
+            row2col2: require("../assets/component3/row2col2.png"),
+            corner:require("../assets/component3/corner.png")
           }
         }
       },
@@ -137,12 +143,9 @@ export default {
     error
   },
   mounted() {
-    // let codeId = this.$store.state.codeId;
-    // this.lists = this.UIcomponents[codeId];
   },
   created() {
     var self = this;
-    // self.newQRCode();
   },
   methods: {
     //判断是否点击了列表图片
@@ -209,6 +212,7 @@ export default {
       /**
         * QRCode的第一个参数是二维码要绘制到的dom
         */
+        console.log('ok');
       let qrcode = new QRCode.QRCode(document.getElementById("qrcode"), {
         /**
          * text：二维码的信息
@@ -229,14 +233,15 @@ export default {
          * 对应每种遍历情况的填充图案
          */
         border: self.UIscource.border,
-        eyeBorder: self.UIscource.eyeBorder,
-        eyeCenter: self.UIscource.eyeCenter,
-        col2: self.UIscource.col2,
-        row2: self.UIscource.row2,
+        eye: self.UIscource.eye,
+        col2:self.UIscource.col2,
+        row4: self.UIscource.row4,
+        row3: self.UIscource.row3,
+        row2col3:self.UIscource.row2col3,
+        row3col2:self.UIscource.row3col2,
         single: self.UIscource.single,
-        row2col1: self.UIscource.row2col1,
-        col3: self.UIscource.col3
-        // xie3:self.UIscource.xie3
+        row2col2: self.UIscource.row2col2,
+        corner:self.UIscource.corner
       });
       new Promise(resolve => {
         let a = qrcode.getImgUrl();
