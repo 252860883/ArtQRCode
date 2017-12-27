@@ -80,7 +80,6 @@ export default {
             row3col2: require("../assets/component3/row3col2.png"),
             row2col2: require("../assets/component3/row2col2.png"),
             corner:require("../assets/component3/corner.png")
-            
           }
         },
         code2: {
@@ -98,15 +97,13 @@ export default {
           },
           path: {
             border: require("../assets/component2/border.jpg"),
-            eye: require("../assets/component3/eye.png"),
-            col2: require("../assets/component3/col2.png"),
-            row3: require("../assets/component3/row3.png"),
-            row4: require("../assets/component3/row4.png"),
-            single: require("../assets/component3/single.png"),
-            row2col3: require("../assets/component3/row2col3.png"),
-            row3col2: require("../assets/component3/row3col2.png"),
-            row2col2: require("../assets/component3/row2col2.png"),
-            corner:require("../assets/component3/corner.png")
+            eye: require("../assets/component2/eye.png"),
+            col2: require("../assets/component2/col2.png"),
+            row3: require("../assets/component2/row3.png"),
+            row4: require("../assets/component2/row4.png"),
+            single: require("../assets/component2/single.png"),
+            row2col2: require("../assets/component2/row2col2.png"),
+            corner:require("../assets/component2/corner.png")
           }
         },
         code3: {
