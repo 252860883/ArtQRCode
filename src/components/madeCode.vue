@@ -71,15 +71,13 @@ export default {
           },
           path: {
             border: require("../assets/component1/border.png"),
-            eye: require("../assets/component3/eye.png"),
-            col2: require("../assets/component3/col2.png"),
-            row3: require("../assets/component3/row3.png"),
-            row4: require("../assets/component3/row4.png"),
-            single: require("../assets/component3/single.png"),
-            row2col3: require("../assets/component3/row2col3.png"),
-            row3col2: require("../assets/component3/row3col2.png"),
-            row2col2: require("../assets/component3/row2col2.png"),
-            corner:require("../assets/component3/corner.png")
+            eye: require("../assets/component1/eye.png"),
+            col2: require("../assets/component1/col2.png"),
+            row3: require("../assets/component1/row3.png"),
+            row4: require("../assets/component1/row4.png"),
+            single: require("../assets/component1/single.png"),
+            row2col2: require("../assets/component1/row2col2.png"),
+            corner:require("../assets/component1/corner.png")
           }
         },
         code2: {
@@ -124,7 +122,6 @@ export default {
             eye: require("../assets/component3/eye.png"),
             col2: require("../assets/component3/col2.png"),
             row3: require("../assets/component3/row3.png"),
-            // row4: require("../assets/component3/row4.png"),
             single: require("../assets/component3/single.png"),
             row2col3: require("../assets/component3/row2col3.png"),
             row3col2: require("../assets/component3/row3col2.png"),
