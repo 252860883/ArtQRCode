@@ -8,6 +8,7 @@
 - 查看demo请戳：http://www.duhonghui.top/artqrcode/#/
 
 - 生成代码是基于QRcode.js进行封装的，利用canvas实现艺术图案填充，vue全家桶构建...
+---
   
 ### 素材尺寸以及命名规范
 ----------
@@ -15,7 +16,8 @@
 
 图中单位尺寸为 50px ，黑字为该素材在下面的代码中的命名。    
 
-注：灰色浅底为辅助展示，实际裁剪时并没有灰色底，裁剪图片一律为png格式的透明底。
+注：灰色浅底为辅助展示，实际裁剪时并没有灰色底，裁剪图片一律为png格式的透明底。  
+---
 
 ### 合成二维码代码
 ----------
@@ -59,20 +61,21 @@ let qrcode = new QRCode.QRCode(document.getElementById("qrcode"), {
         corner:self.UIscource.corner
       });
 ```
-
+---
 ### 功能
 ----------
 选择二维码样式  
 输入链接或者文字    
 点击生成艺术二维码  
 导出高清图片  
-
+---
 ### 待优化
 ----------
 识别图片二维码  
 海报编辑改字模板  
 二维码名片设计  
 . . .
+---
 
 ### 效果展示
 ----------
@@ -80,9 +83,10 @@ let qrcode = new QRCode.QRCode(document.getElementById("qrcode"), {
 ![image](http://wx2.sinaimg.cn/mw690/a73bc6a1ly1flv9o0y775j20yj0hpk0d.jpg)  
 #### 生成艺术二维码示例：
 ![image](http://wx2.sinaimg.cn/mw690/a73bc6a1ly1fmeydtz4jej21kw0qzgz6.jpg)
-
+---
 
 ### 项目总结
+---
 请戳![项目总结](问题汇总.md)
 
 
