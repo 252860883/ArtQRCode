@@ -24,8 +24,8 @@
 /**
  * 组件中引入
  * import QRcode from 'core.js';
- * let let qrcode = new QRCode.QRCode(DOMElement, {Options配置});
- */
+ * let qrcode = new QRCode.QRCode(DOMElement, {Options配置});
+ */   
  
 // 组件中引入配置
 let qrcode = new QRCode.QRCode(document.getElementById("qrcode"), {
@@ -34,10 +34,10 @@ let qrcode = new QRCode.QRCode(document.getElementById("qrcode"), {
          */
         text: self.text,
         /**
-         * width,height 是二维码的长宽
-         * bgWidth,bgHeight 是整张图片的大小
-         * top,left 是二维码距离整图的距离
-         */
+         * width,height 是二维码区域的长宽
+         * bgWidth,bgHeight 是整张背景图片的长宽
+         * top,left 是二维码距离整图的坐标距离
+         */
         width: self.UIscource.position.width,
         height: self.UIscource.position.height,
         bgWidth: self.UIscource.position.bgWidth,
@@ -46,7 +46,7 @@ let qrcode = new QRCode.QRCode(document.getElementById("qrcode"), {
         left: self.UIscource.position.left,
         /**
          * 对应每种情况的填充图案
-         * 切记需要等图片加载完毕再执行绘制的代码，否则会报错
+         * 切记需要等图片加载完毕（可以使用 promis.all）再执行绘制的代码，否则会报错
          */
         border: self.UIscource.border,
         eye: self.UIscource.eye,
