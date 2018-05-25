@@ -18,7 +18,7 @@
 
 ---
 
-### 合成二维码代码
+### 合成二维码核心代码
 ```js
  
 /**
@@ -84,5 +84,8 @@ let qrcode = new QRCode.QRCode(document.getElementById("qrcode"), {
 
 ### 项目总结
 请戳![项目总结](问题汇总.md)
+
+### 最后
+- 欢迎issues
 
 
