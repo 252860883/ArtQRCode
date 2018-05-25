@@ -85,4 +85,4 @@ let qrcode = new QRCode.QRCode(document.getElementById("qrcode"), {
 ### 最后
 - 欢迎issues
 - 个人微信
-- ![image](http://wx4.sinaimg.cn/mw690/a73bc6a1ly1fro1yi2i4lj21kw0xhn2i.jpg)
+ ![image](http://wx4.sinaimg.cn/mw690/a73bc6a1ly1fro1yi2i4lj21kw0xhn2i.jpg)
