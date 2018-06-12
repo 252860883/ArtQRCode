@@ -13,6 +13,7 @@
     "test": "npm run unit && npm run e2e"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "hidpi-canvas": "^1.0.10",
     "qrcodejs2": "0.0.2",
     "sass": "^1.0.0-beta.3",

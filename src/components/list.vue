@@ -4,8 +4,6 @@
             <div class="instruction">
                 <span class="name">{{view.name}}</span><br>
                 <div class="number">
-                    <!-- <span>{{view.click}}</span>
-                    <span>{{view.save}}</span> -->
                 </div>
             </div>
             <img :src="view.url" >
@@ -48,13 +46,6 @@ export default {
           name: "疯狂动物城",
           click: "946",
           save: "105"
-        },
-        {
-          codeId: "code5",
-          url: require("../assets/main/view6.jpg"),
-          name: "猫狗大战",
-          click: "946",
-          save: "105"
         }
       ]
     };
@@ -75,25 +66,21 @@ export default {
 @import "../assets/scss/all.scss";
 
 .view-content {
-  // width: 100%;
-  height: p(200px);
-  margin: p(10px) 0;
-  // overflow-x:srcoll;
-  // overflow: scroll;
-
+  width: 100%;
+  height: p(220px);
+  margin: p(15px) 0;
+  display: flex;
+  justify-content: space-between;
   .col-view-border {
     display: inline-block;
-    float: left;
-    height: p(200px);
+    height: p(220px);
     border: p(1px) solid $bordercolor;
     border-radius: p(5px);
-    margin: p(12px);
-    margin-top: 0;
     background: #fff;
     position: relative;
     overflow: hidden;
     img {
-      width: p(140px);
+      width: p(155px);
       height: 100%;
       background-size: contain;
       cursor: pointer;

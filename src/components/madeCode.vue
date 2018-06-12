@@ -77,7 +77,7 @@ export default {
             row4: require("../assets/component1/row4.png"),
             single: require("../assets/component1/single.png"),
             row2col2: require("../assets/component1/row2col2.png"),
-            corner:require("../assets/component1/corner.png")
+            corner: require("../assets/component1/corner.png")
           }
         },
         code2: {
@@ -101,7 +101,7 @@ export default {
             row4: require("../assets/component2/row4.png"),
             single: require("../assets/component2/single.png"),
             row2col2: require("../assets/component2/row2col2.png"),
-            corner:require("../assets/component2/corner.png")
+            corner: require("../assets/component2/corner.png")
           }
         },
         code3: {
@@ -126,7 +126,7 @@ export default {
             row2col3: require("../assets/component3/row2col3.png"),
             row3col2: require("../assets/component3/row3col2.png"),
             row2col2: require("../assets/component3/row2col2.png"),
-            corner:require("../assets/component3/corner.png")
+            corner: require("../assets/component3/corner.png")
           }
         }
       },
@@ -137,8 +137,7 @@ export default {
     list,
     error
   },
-  mounted() {
-  },
+  mounted() {},
   created() {
     var self = this;
   },
@@ -165,6 +164,15 @@ export default {
 
     //加载所有的素材文件后执行绘制操作
     madeCode() {
+      if (this.text == "") {
+        this.errorMsg = "请输入内容";
+        this.errShow = true;
+        let self = this;
+        setTimeout(() => {
+          self.errShow = false;
+        }, 2500);
+        return;
+      }
       let qr = [], //存放所有 promise 的状态
         self = this,
         codeId = this.$store.state.codeId,
@@ -205,9 +213,9 @@ export default {
       var self = this;
       document.getElementById("qrcode").innerHTML = "";
       /**
-        * QRCode的第一个参数是二维码要绘制到的dom
-        */
-        console.log('ok');
+       * QRCode的第一个参数是二维码要绘制到的dom
+       */
+      console.log("ok");
       let qrcode = new QRCode.QRCode(document.getElementById("qrcode"), {
         /**
          * text：二维码的信息
@@ -229,14 +237,14 @@ export default {
          */
         border: self.UIscource.border,
         eye: self.UIscource.eye,
-        col2:self.UIscource.col2,
+        col2: self.UIscource.col2,
         row4: self.UIscource.row4,
         row3: self.UIscource.row3,
-        row2col3:self.UIscource.row2col3,
-        row3col2:self.UIscource.row3col2,
+        row2col3: self.UIscource.row2col3,
+        row3col2: self.UIscource.row3col2,
         single: self.UIscource.single,
         row2col2: self.UIscource.row2col2,
-        corner:self.UIscource.corner
+        corner: self.UIscource.corner
       });
       new Promise(resolve => {
         let a = qrcode.getImgUrl();
@@ -272,7 +280,6 @@ export default {
       e.initMouseEvent("click");
       save_link.dispatchEvent(e);
     }
-    // saveFile(data, filename) {}
   }
 };
 </script>
@@ -323,7 +330,7 @@ export default {
       padding: p(10px);
       box-sizing: border-box;
       font-size: p(20px);
-      margin-top: p(10px);
+      // margin-top: p(10px);
     }
     a {
       display: inline-block;
@@ -374,8 +381,8 @@ export default {
     .list {
       // overflow: scroll;
       width: p(700px);
-      overflow: scroll;
-      height: p(230px);
+      // overflow: scroll;
+      // height: p(230px);
     }
   }
 
