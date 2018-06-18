@@ -15,6 +15,7 @@
             <div class="imgBorder" v-if="isWXTouch">
                 <img src="../assets/main/view2.jpg" alt="">
             </div>
+            <div class="imgBottom" v-if="isWXTouch"></div>
         </div>
     </div>
 </div>
@@ -78,6 +79,16 @@ export default {
           top: -20px;
           left: -10px;
         }
+      }
+      .imgBottom{
+        // width: 5px;
+        // height: 10px;
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-top: 10px solid #fff;
+        position: absolute;
+        bottom: 40px;
+        left: 35px;
       }
     }
   }

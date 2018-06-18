@@ -18,7 +18,8 @@ export default {
 @import "../assets/scss/all.scss";
 .top {
   width: 100%;
-  background: #444;
+  // background: #444;
+  background: #f4f4f4;
   height: p(45px);
   // padding-top: p(15px);
   // box-sizing: border-box;

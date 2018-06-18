@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <!-- <headers></headers> -->
+    <headers></headers>
     <router-view/>
     <div>
       <footers class="foot-content"></footers>
