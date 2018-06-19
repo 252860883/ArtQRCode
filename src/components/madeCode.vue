@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import QRCode from "../assets/core/art-qrcode";
+import  QRCode  from "../core/art-qrcode";
 import list from "../components/list";
 import error from "../components/error";
 
@@ -229,7 +229,7 @@ export default {
         width: self.UIscource.position.width,
         height: self.UIscource.position.height,
         bgWidth: self.UIscource.position.bgWidth,
-        bgheight: self.UIscource.position.bgHeight,
+        bgHeight: self.UIscource.position.bgHeight,
         top: self.UIscource.position.top,
         left: self.UIscource.position.left,
         /**

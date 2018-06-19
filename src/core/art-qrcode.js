@@ -689,80 +689,6 @@ var QRCode;
         return typeof CanvasRenderingContext2D != "undefined";
     }
 
-    // android 2.x doesn't support Data-URI spec
-    // function _getAndroid() {
-    //     var android = false;
-    //     var sAgent = navigator.userAgent;
-
-    //     if (/android/i.test(sAgent)) { // android
-    //         android = true;
-    //         var aMat = sAgent.toString().match(/android ([0-9]\.[0-9])/i);
-
-    //         if (aMat && aMat[1]) {
-    //             android = parseFloat(aMat[1]);
-    //         }
-    //     }
-
-    //     return android;
-    // }
-
-    // var svgDrawer = (function () {
-
-    //     var Drawing = function (el, htOption) {
-    //         this._el = el;
-    //         this._htOption = htOption;
-    //     };
-
-    //     Drawing.prototype.draw = function (oQRCode) {
-    //         var _htOption = this._htOption;
-    //         var _el = this._el;
-    //         var nCount = oQRCode.getModuleCount();
-    //         var nWidth = Math.floor(_htOption.width / nCount);
-    //         var nHeight = Math.floor(_htOption.height / nCount);
-
-    //         this.clear();
-
-    //         function makeSVG(tag, attrs) {
-    //             var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
-    //             for (var k in attrs)
-    //                 if (attrs.hasOwnProperty(k)) el.setAttribute(k, attrs[k]);
-    //             return el;
-    //         }
-
-    //         var svg = makeSVG("svg", {
-    //             'viewBox': '0 0 ' + String(nCount) + " " + String(nCount),
-    //             'width': '100%',
-    //             'height': '100%',
-    //             'fill': _htOption.colorLight
-    //         });
-    //         svg.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:xlink", "http://www.w3.org/1999/xlink");
-    //         _el.appendChild(svg);
-
-    //         svg.appendChild(makeSVG("rect", { "fill": _htOption.colorLight, "width": "100%", "height": "100%" }));
-    //         svg.appendChild(makeSVG("rect", {
-    //             "fill": _htOption.colorDark,
-    //             "width": "1",
-    //             "height": "1",
-    //             "id": "template"
-    //         }));
-
-    //         for (var row = 0; row < nCount; row++) {
-    //             for (var col = 0; col < nCount; col++) {
-    //                 if (oQRCode.isDark(row, col)) {
-    //                     var child = makeSVG("use", { "x": String(col), "y": String(row) });
-    //                     child.setAttributeNS("http://www.w3.org/1999/xlink", "href", "#template")
-    //                     svg.appendChild(child);
-    //                 }
-    //             }
-    //         }
-    //     };
-    //     Drawing.prototype.clear = function () {
-    //         while (this._el.hasChildNodes())
-    //             this._el.removeChild(this._el.lastChild);
-    //     };
-    //     return Drawing;
-    // })();
-
     var useSVG = document.documentElement.tagName.toLowerCase() === "svg";
 
     // Drawing in DOM by using Table tag
@@ -799,12 +725,11 @@ var QRCode;
 
         /**
          * Clear the QRCode
+         * 清空二维码
          */
         Drawing.prototype.clear = function () {
             this._el.innerHTML = '';
         };
-
-        
 
         return Drawing;
     })() : (function () { // Drawing in Canvas
@@ -814,26 +739,6 @@ var QRCode;
             this._elImage.style.display = "block";
             this._elCanvas.style.display = "none";
         }
-
-        // Android 2.1 bug workaround
-        // http://code.google.com/p/android/issues/detail?id=5141
-        // if (this._android && this._android <= 2.1) {
-        //     var factor = 1 / window.devicePixelRatio;
-        //     var drawImage = CanvasRenderingContext2D.prototype.drawImage;
-        //     CanvasRenderingContext2D.prototype.drawImage = function (image, sx, sy, sw, sh, dx, dy, dw, dh) {
-        //         if (("nodeName" in image) && /img/i.test(image.nodeName)) {
-        //             for (var i = arguments.length - 1; i >= 1; i--) {
-        //                 arguments[i] = arguments[i] * factor;
-        //             }
-        //         } else if (typeof dw == "undefined") {
-        //             arguments[1] *= factor;
-        //             arguments[2] *= factor;
-        //             arguments[3] *= factor;
-        //             arguments[4] *= factor;
-        //         }
-        //         drawImage.apply(this, arguments);
-        //     };
-        // }
 
         /**
          * Check whether the user's browser supports Data URI or not
@@ -910,7 +815,7 @@ var QRCode;
              * 
              * */
             this._elCanvas.width = htOption.bgWidth * 2;
-            this._elCanvas.height = htOption.bgheight * 2;
+            this._elCanvas.height = htOption.bgHeight * 2;
             el.appendChild(this._elCanvas);
             this._el = el;
             this._oContext = this._elCanvas.getContext("2d");
@@ -924,7 +829,7 @@ var QRCode;
             this._elImage = document.createElement("img");
             this._elImage.alt = "Scan me!";
             this._elImage.style.width = htOption.bgWidth + 'px';
-            this._elImage.style.height = htOption.bgheight + 'px';
+            this._elImage.style.height = htOption.bgHeight + 'px';
 
             this._elImage.style.display = "none";
             // this._elImage.setAttribute('crossOrigin', 'anonymous');//设置图片可以跨域访问 
@@ -950,7 +855,7 @@ var QRCode;
             var nRoundedWidth = Math.round(nWidth);
             var nRoundedHeight = Math.round(nHeight);
             var bgWidth = _htOption.bgWidth;
-            var bgheight = _htOption.bgheight;
+            var bgHeight = _htOption.bgHeight;
             var top = _htOption.top;
             var left = _htOption.left;
 
@@ -962,7 +867,6 @@ var QRCode;
                 isDraw[i] = [];
             }
             isDraw = oQRCode.modules;
-            // console.log(isDraw);
 
             this.clear();
 
@@ -970,7 +874,7 @@ var QRCode;
              * 绘制背景
              */
 
-            _oContext.drawImage(this.border, 0, 0, bgWidth, bgheight);
+            _oContext.drawImage(this.border, 0, 0, bgWidth, bgHeight);
 
             // console.log('draw');
             for (var row = 0; row < nCount; row++) {
@@ -1195,6 +1099,8 @@ var QRCode;
      * @param {String} vOption.text QRCode link data
      * @param {Number} [vOption.width=256]
      * @param {Number} [vOption.height=256]
+     * @param {Number} [vOption.bgWidth=350]
+     * @param {Number} [vOption.bgHeight=500]
      * @param {String} [vOption.colorDark="#000000"]
      * @param {String} [vOption.colorLight="#ffffff"]
      * @param {QRCode.CorrectLevel} [vOption.correctLevel=QRCode.CorrectLevel.H] [L|M|Q|H]
@@ -1203,7 +1109,7 @@ var QRCode;
     /**
       * 
       * @duhonghui
-      * 这是 QRCode 的源码的默认配置
+      * 这是 QRCode 的源码的初始默认配置
       * 
       */
 
@@ -1212,7 +1118,7 @@ var QRCode;
             width: 256,
             height: 256,
             bgWidth: 350,
-            bgheight: 500,
+            bgHeight: 500,
             top: 76,
             left: 76,
             typeNumber: 4,
