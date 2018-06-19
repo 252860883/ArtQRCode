@@ -685,56 +685,15 @@ var QRCode;
     };
     var QRCodeLimitLength = [[17, 14, 11, 7], [32, 26, 20, 14], [53, 42, 32, 24], [78, 62, 46, 34], [106, 84, 60, 44], [134, 106, 74, 58], [154, 122, 86, 64], [192, 152, 108, 84], [230, 180, 130, 98], [271, 213, 151, 119], [321, 251, 177, 137], [367, 287, 203, 155], [425, 331, 241, 177], [458, 362, 258, 194], [520, 412, 292, 220], [586, 450, 322, 250], [644, 504, 364, 280], [718, 560, 394, 310], [792, 624, 442, 338], [858, 666, 482, 382], [929, 711, 509, 403], [1003, 779, 565, 439], [1091, 857, 611, 461], [1171, 911, 661, 511], [1273, 997, 715, 535], [1367, 1059, 751, 593], [1465, 1125, 805, 625], [1528, 1190, 868, 658], [1628, 1264, 908, 698], [1732, 1370, 982, 742], [1840, 1452, 1030, 790], [1952, 1538, 1112, 842], [2068, 1628, 1168, 898], [2188, 1722, 1228, 958], [2303, 1809, 1283, 983], [2431, 1911, 1351, 1051], [2563, 1989, 1423, 1093], [2699, 2099, 1499, 1139], [2809, 2213, 1579, 1219], [2953, 2331, 1663, 1273]];
 
-    function _isSupportCanvas() {
-        return typeof CanvasRenderingContext2D != "undefined";
-    }
+    // function _isSupportCanvas() {
+    //     return typeof CanvasRenderingContext2D != "undefined";
+    // }
 
-    var useSVG = document.documentElement.tagName.toLowerCase() === "svg";
+    // var useSVG = document.documentElement.tagName.toLowerCase() === "svg";
 
-    // Drawing in DOM by using Table tag
-    // 如果不兼容canvas和svg则使用默认的表格来绘制
-    var Drawing = useSVG ? svgDrawer : !_isSupportCanvas() ? (function () {
-        var Drawing = function (el, htOption) {
-            this._el = el;
-            this._htOption = htOption;
-        };
-
-        /**
-         * Draw the QRCode
-         *绘制二维码
-         *
-         * @param {QRCode}
-         *
-         */
-        Drawing.prototype.draw = function (oQRCode) {
-            var _htOption = this._htOption;
-            var _el = this._el;
-            var nCount = oQRCode.getModuleCount();
-            var nWidth = Math.floor(_htOption.width / nCount);//每个单元格的宽度
-            var nHeight = Math.floor(_htOption.height / nCount);//每个单块格的宽度
-
-            // Fix the margin values as real size.
-            var elTable = _el.childNodes[0];
-            var nLeftMarginTable = (_htOption.width - elTable.offsetWidth) / 2;
-            var nTopMarginTable = (_htOption.height - elTable.offsetHeight) / 2;
-
-            if (nLeftMarginTable > 0 && nTopMarginTable > 0) {
-                elTable.style.margin = nTopMarginTable + "px " + nLeftMarginTable + "px";
-            }
-        };
-
-        /**
-         * Clear the QRCode
-         * 清空二维码
-         */
-        Drawing.prototype.clear = function () {
-            this._el.innerHTML = '';
-        };
-
-        return Drawing;
-    })() : (function () { // Drawing in Canvas
+    // Drawing in Canvas
+    var Drawing = (function () {
         function _onMakeImage() {
-            // this._elImage.crossOrigin='anonymous';//设置图片可以跨域访问
             this._elImage.src = this._elCanvas.toDataURL("image/png");
             this._elImage.style.display = "block";
             this._elCanvas.style.display = "none";
@@ -804,7 +763,7 @@ var QRCode;
             this.row2col3 = htOption.row2col3;
             this.row3col2 = htOption.row3col2;
             this.row2col2 = htOption.row2col2;
-            this.corner=htOption.corner;
+            this.corner = htOption.corner;
 
             this._elCanvas = document.createElement("canvas");
             this._elCanvas.style.display = "none";
@@ -903,25 +862,25 @@ var QRCode;
                         if (this.eye && row == 0 && col == 0 || row + 7 == nCount && col == 0 || row == 0 && col + 7 == nCount) {
                             _oContext.drawImage(this.eye, nLeft, nTop, nWidth * 7, nHeight * 7);
                             for (var i = 0; i < 7; i++) {
-                                for(var j=0;j<7;j++){
-                                    isDraw[row+i][col + j]= false;
+                                for (var j = 0; j < 7; j++) {
+                                    isDraw[row + i][col + j] = false;
                                 }
                             }
-                        } 
+                        }
                         //row2col3
-                        else if (this.row2col3 && row + 1 < nCount && col+2<nCount  && isDraw[row+1][col] &&isDraw[row][col+1] && isDraw[row + 1][col+1] && isDraw[row][col+2] && isDraw[row+1][col+2]) {
+                        else if (this.row2col3 && row + 1 < nCount && col + 2 < nCount && isDraw[row + 1][col] && isDraw[row][col + 1] && isDraw[row + 1][col + 1] && isDraw[row][col + 2] && isDraw[row + 1][col + 2]) {
                             _oContext.drawImage(this.row2col3, nLeft, nTop, nWidth * 3, nHeight * 2);
-                            isDraw[row][col] = isDraw[row + 1][col] = isDraw[row][col+1] = isDraw[row + 1][col+1]=isDraw[row][col+2] = isDraw[row+1][col+2] =false;
+                            isDraw[row][col] = isDraw[row + 1][col] = isDraw[row][col + 1] = isDraw[row + 1][col + 1] = isDraw[row][col + 2] = isDraw[row + 1][col + 2] = false;
                         }
                         // row3col2
-                        else if (this.row3col2 && row + 2 < nCount && col+1<nCount  && isDraw[row+1][col] && isDraw[row + 2][col] && isDraw[row+1][col+1] && isDraw[row+2][col+1] && isDraw[row][col+1]) {
+                        else if (this.row3col2 && row + 2 < nCount && col + 1 < nCount && isDraw[row + 1][col] && isDraw[row + 2][col] && isDraw[row + 1][col + 1] && isDraw[row + 2][col + 1] && isDraw[row][col + 1]) {
                             _oContext.drawImage(this.row3col2, nLeft, nTop, nWidth * 2, nHeight * 3);
-                            isDraw[row][col] = isDraw[row + 1][col] = isDraw[row+2][col] = isDraw[row + 1][col+1]=isDraw[row+2][col+1] = isDraw[row][col+1]=false;
+                            isDraw[row][col] = isDraw[row + 1][col] = isDraw[row + 2][col] = isDraw[row + 1][col + 1] = isDraw[row + 2][col + 1] = isDraw[row][col + 1] = false;
                         }
                         // row4的时候
-                        else if (this.row4 && row + 3 < nCount  && isDraw[row+1][col] && isDraw[row + 2][col] && isDraw[row + 3][col]) {
+                        else if (this.row4 && row + 3 < nCount && isDraw[row + 1][col] && isDraw[row + 2][col] && isDraw[row + 3][col]) {
                             _oContext.drawImage(this.row4, nLeft, nTop, nWidth * 1, nHeight * 4);
-                            isDraw[row][col] = isDraw[row + 1][col] = isDraw[row+2][col] = isDraw[row + 3][col] = false;
+                            isDraw[row][col] = isDraw[row + 1][col] = isDraw[row + 2][col] = isDraw[row + 3][col] = false;
                         }
 
                         //正方形的时候
@@ -1127,15 +1086,15 @@ var QRCode;
             correctLevel: QRErrorCorrectLevel.L,
 
             //素材获取
-            eye :"",
-            col2 : "",
-            row4 : "",
-            row3 : "",
-            single : "",
-            row2col3 : "",
-            row3col2 : "",
-            row2col2 : "",
-            corner : ""
+            eye: "",
+            col2: "",
+            row4: "",
+            row3: "",
+            single: "",
+            row2col3: "",
+            row3col2: "",
+            row2col2: "",
+            corner: ""
         };
         // console.log(this._htOption)
 
@@ -1156,11 +1115,6 @@ var QRCode;
             el = document.getElementById(el);
         }
 
-        // if (this._htOption.useSVG) {
-        //     Drawing = svgDrawer;
-        // }
-
-        // this._android = _getAndroid();
         this._el = el;
         this._oQRCode = null;
         this._oDrawing = new Drawing(this._el, this._htOption);
@@ -1216,7 +1170,7 @@ var QRCode;
      * 返回生成图片的地址
      */
     QRCode.prototype.getImgUrl = function () {
-       return this._oDrawing.getImgSrc();
+        return this._oDrawing.getImgSrc();
     }
 
     /**
