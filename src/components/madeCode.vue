@@ -25,10 +25,10 @@
         <list v-on:child-say="isClick"></list>
       </div>
       <textarea  cols="30" rows="10" v-model="text" placeholder="请输入文字或者链接"></textarea>
+      <a @click="madeCode">点击生成艺术码</a>
       <a @click='update'>
         <!-- <input  type="button"> -->
         点击上传二维码图片</a>
-      <a @click="madeCode">点击生成艺术码</a>
       <div class="download-group">
         <a v-show="finishMade" @click="downloadImg">下载</a>
         <a v-show="!finishMade" class="unfinish-btn">下载</a>
