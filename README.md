@@ -46,7 +46,7 @@ let qrcode = new QRCode.QRCode(document.getElementById("qrcode"), {
         left: self.UIscource.position.left,
         /**
          * 对应每种情况的填充图案
-         * 切记需要等图片加载完毕（可以使用 promis.all）再执行绘制的代码，否则会报错
+         * 切记需要等图片加载完毕（可以使用 promise.all）再执行绘制的代码，否则会报错
          */
         border: self.UIscource.border,
         eye: self.UIscource.eye,
