@@ -59,20 +59,7 @@ let qrcode = new QRCode.QRCode(document.getElementById("qrcode"), {
         row2col2: self.UIscource.row2col2,
         corner:self.UIscource.corner
       });
-```
----
-### 功能
-选择二维码样式  
-输入链接或者文字    
-点击生成艺术二维码  
-导出高清图片  
-
----
-### 待优化
-识别图片二维码  
-海报编辑改字模板  
-二维码名片设计  
-. . .
+```  
 
 ---
 ### 效果展示
@@ -85,6 +72,7 @@ let qrcode = new QRCode.QRCode(document.getElementById("qrcode"), {
 
 ### 最后
 - 觉得有意思的话，给颗star吧～
+- 网罗一线牵，珍惜这段缘
 - 欢迎issues,wechat👇
 
  ![image](http://wx4.sinaimg.cn/mw690/a73bc6a1ly1fro1yi2i4lj21kw0xhn2i.jpg)
