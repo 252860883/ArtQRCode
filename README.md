@@ -6,8 +6,6 @@
 
 - 生成代码是基于QRcode.js进行封装的，利用canvas实现艺术图案填充，vue全家桶构建...
 
-- demo请戳：http://www.duhonghui.top/artqrcode/#/
-
 ---
   
 ### 素材尺寸以及命名规范
