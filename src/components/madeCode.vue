@@ -246,6 +246,7 @@ export default {
         row2col2: self.UIscource.row2col2,
         corner: self.UIscource.corner
       });
+      
       new Promise(resolve => {
         let a = qrcode.getImgUrl();
         resolve(a);
