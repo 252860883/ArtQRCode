@@ -71,6 +71,7 @@ let qrcode = new QRCode.QRCode(document.getElementById("qrcode"), {
 ### 最后
 - 觉得有意思的话，给颗star吧～
 - 网罗一线牵，珍惜这段缘
+- We meet in the network,please cherish this fate
 - 欢迎issues,wechat👇
 
  ![image](http://wx4.sinaimg.cn/mw690/a73bc6a1ly1fro1yi2i4lj21kw0xhn2i.jpg)
