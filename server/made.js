@@ -5,7 +5,7 @@ let express = require('express'),
     gm = require('gm'),
     UUID = require('uuid');
 // 转二进制
-let binaryCode = require('./toBinary').getBinary('www.baidu.com')
+let binaryCode = require('./toBinary').getBinary('www.baidu.com','L')
 // console.log(binaryCode)
 
 // 生成二维码
@@ -21,7 +21,7 @@ function computedImg() {
         .drawRectangle(0,0,200,200)
     for (let i = 0; i < binaryCode.length; i++) {
         for(let j=0;j<binaryCode[i].length;j++){
-            console.log(binaryCode[i][j]) 
+            // console.log(binaryCode[i][j]) 
             if(binaryCode[i][j]){
                 a.draw(`image over ${i*5},${j * 5},5,5 "./assets/black.jpg"`) //叠加图片
                 // a.fill('#000')

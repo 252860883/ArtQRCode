@@ -727,9 +727,10 @@ var toBinary;
         return replacedText.length + (replacedText.length != sText ? 3 : 0);
     }
 
-    toBinary = function (sText) {
+    toBinary = function (sText,level) {
+        console.log(level)
         this._htOption = {
-            correctLevel: QRErrorCorrectLevel.L,
+            correctLevel: level ? QRErrorCorrectLevel[level] : QRErrorCorrectLevel.L,
         };
 
         this._oQRCode = null;
@@ -745,7 +746,7 @@ var toBinary;
             return this._oQRCode.modules
         }
     };
-    
+
     toBinary.CorrectLevel = QRErrorCorrectLevel;
 })()
-exports.getBinary=toBinary
+exports.getBinary = toBinary
