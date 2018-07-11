@@ -66,7 +66,7 @@ var toBinary;
         this.moduleCount = 0;
         this.dataCache = null;
         this.dataList = [];
-
+        this.moduleIMGPositions = [];
     }
 
     QRCodeModel.prototype = {
@@ -81,6 +81,7 @@ var toBinary;
             if (row < 0 || this.moduleCount <= row || col < 0 || this.moduleCount <= col) {
                 throw new Error(row + "," + col);
             }
+            this.moduleIMGPositions[row] = [];
             return this.modules[row][col];
         },
         getModuleCount: function () {
@@ -111,6 +112,109 @@ var toBinary;
                 this.dataCache = QRCodeModel.createData(this.typeNumber, this.errorCorrectLevel, this.dataList);
             }
             this.mapData(this.dataCache, maskPattern);
+        },
+        // 配置图片定位点
+        makeImgPosition: function () {
+            // console.log(this.modules);
+            let nCount = this.modules.length;
+            
+            for (var row = 0; row < nCount; row++) {
+                for (var col = 0; col < nCount; col++) {
+                    // this.moduleIMGPositions[row][col]=this.modules[row][col];
+                    //绘制码眼，优先级最高
+                    if (row == 0 && col == 0 || row + 7 == nCount && col == 0 || row == 0 && col + 7 == nCount) {
+                        for (var i = 0; i < 7; i++) {
+                            for (var j = 0; j < 7; j++) {
+                                this.modules[row + i][col + j] = 0;
+                            }
+                        }
+                        this.modules[row][col] = 1;
+                    }
+                    else if (this.modules[row][col]) {
+                        //row3col2
+                        if (row + 1 < nCount
+                            && col + 2 < nCount
+                            && this.modules[row + 1][col]
+                            && this.modules[row][col + 1]
+                            && this.modules[row + 1][col + 1]
+                            && this.modules[row][col + 2]
+                            && this.modules[row + 1][col + 2]) {
+                            this.modules[row][col] = 2;
+                            this.modules[row + 1][col] =
+                                this.modules[row][col + 1] =
+                                this.modules[row + 1][col + 1] =
+                                this.modules[row][col + 2] =
+                                this.modules[row + 1][col + 2] = false;
+                        }
+                        // row2col3
+                        else if (row + 2 < nCount
+                            && col + 1 < nCount
+                            && this.modules[row + 1][col]
+                            && this.modules[row + 2][col]
+                            && this.modules[row + 1][col + 1]
+                            && this.modules[row + 2][col + 1]
+                            && this.modules[row][col + 1]) {
+                            this.modules[row][col] = 3;
+                            this.modules[row + 1][col] =
+                                this.modules[row + 2][col] =
+                                this.modules[row + 1][col + 1] =
+                                this.modules[row + 2][col + 1] =
+                                this.modules[row][col + 1] = false;
+                        }
+                        // row4的时候
+                        else if (col + 3 < nCount
+                            && this.modules[row][col+1]
+                            && this.modules[row][col+2]
+                            && this.modules[row][col+3]) {
+                            this.modules[row][col] = 4;
+                            this.modules[row][col + 1] =
+                                this.modules[row][col + 2] =
+                                this.modules[row][col + 3] = false;
+                        }
+
+                        //row2col2的时候
+                        else if (col + 1 < nCount
+                            && row + 1 < nCount
+                            && this.modules[row][col + 1]
+                            && this.modules[row + 1][col]
+                            && this.modules[row + 1][col + 1]) {
+                            this.modules[row][col] = 5;
+                            this.modules[row + 1][col] =
+                                this.modules[row][col + 1] =
+                                this.modules[row + 1][col + 1] = false;
+                        }
+
+                        //corner 的时候
+                        else if (col + 1 < nCount
+                            && row + 1 < nCount
+                            && this.modules[row][col + 1]
+                            && this.modules[row + 1][col]) {
+                            this.modules[row][col] = 6;
+                            this.modules[row + 1][col] =
+                                this.modules[row][col + 1] = false;
+                        }
+                        //col2时绘制 
+                        else if (row + 2 < nCount
+                            && this.modules[row + 1][col]
+                            && this.modules[row + 2][col]) {
+                            this.modules[row][col] = 7;
+                            this.modules[row + 1][col] =
+                                this.modules[row + 2][col] = false;
+                        }
+                        //row2时绘制
+                        else if (col + 1 < nCount && this.modules[row][col + 1]) {
+                            this.modules[row][col] = 8;
+                            this.modules[row][col + 1] = false;
+                        }
+                        //单个时
+                        else if (this.modules[row][col]) {
+                            this.modules[row][col] = 9;
+                        }
+                    } else {
+                        this.modules[row][col] = 0
+                    }
+                }
+            }
         },
         setupPositionProbePattern: function (row, col) {
             for (var r = -1; r <= 7; r++) {
@@ -727,8 +831,8 @@ var toBinary;
         return replacedText.length + (replacedText.length != sText ? 3 : 0);
     }
 
-    toBinary = function (sText,level) {
-        console.log(level)
+    toBinary = function (sText, level) {
+        // console.log(level)
         this._htOption = {
             correctLevel: level ? QRErrorCorrectLevel[level] : QRErrorCorrectLevel.L,
         };
@@ -742,7 +846,8 @@ var toBinary;
             this._oQRCode = new QRCodeModel(_getTypeNumber(sText, this._htOption.correctLevel), this._htOption.correctLevel);
             this._oQRCode.addData(sText);
             this._oQRCode.make();
-
+            this._oQRCode.makeImgPosition();
+            // console.log(this._oQRCode.moduleIMGPositions)
             return this._oQRCode.modules
         }
     };
