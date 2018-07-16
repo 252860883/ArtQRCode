@@ -19,7 +19,7 @@ npm install
 node made.js
 
 ```
-
+---
 ## 前端版
 
 ### 安装
@@ -74,7 +74,6 @@ let qrcode = new QRCode.QRCode(document.getElementById("qrcode"), {
       });
 ```  
 
----
 ### 效果展示
 #### 界面
 ![image](http://wx2.sinaimg.cn/mw690/a73bc6a1ly1flv9o0y775j20yj0hpk0d.jpg)  
@@ -82,8 +81,6 @@ let qrcode = new QRCode.QRCode(document.getElementById("qrcode"), {
 ![image](http://wx2.sinaimg.cn/mw690/a73bc6a1ly1fmeydtz4jej21kw0qzgz6.jpg)
 
 ---
-
-
 
 ### 最后
 - 觉得有意思的话，给颗star吧～
