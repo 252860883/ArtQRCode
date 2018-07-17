@@ -5,7 +5,7 @@ let express = require('express'),
     gm = require('gm'),
     UUID = require('uuid');
 // 转二进制
-let binaryCode = require('./toBinary').getBinary('www.baidu.com', 'M')
+let binaryCode = require('./toBinary').getBinary('www.baidu.com', 'L')
 // console.log(binaryCode)
 
 // 生成二维码
@@ -26,8 +26,7 @@ let computedImg = async function () {
             drawMaterial(a, binaryCode[i][j], i, j)
             if(binaryCode[i][j]){
             //    a.draw(`image over ${i * 10},${j * 10},10,10 "./assets/material/eye.png"`) 
-            }
-            
+            } 
         }
     }
     // await a.draw('image over 10,10,70,70,"./assets/material/col2.png"')
