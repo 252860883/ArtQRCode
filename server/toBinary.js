@@ -117,7 +117,7 @@ var toBinary;
         makeImgPosition: function () {
             // console.log(this.modules);
             let nCount = this.modules.length;
-            
+
             for (var row = 0; row < nCount; row++) {
                 for (var col = 0; col < nCount; col++) {
                     // this.moduleIMGPositions[row][col]=this.modules[row][col];
@@ -163,15 +163,24 @@ var toBinary;
                         }
                         // row4的时候
                         else if (col + 3 < nCount
-                            && this.modules[row][col+1]
-                            && this.modules[row][col+2]
-                            && this.modules[row][col+3]) {
+                            && this.modules[row][col + 1]
+                            && this.modules[row][col + 2]
+                            && this.modules[row][col + 3]) {
                             this.modules[row][col] = 4;
                             this.modules[row][col + 1] =
                                 this.modules[row][col + 2] =
                                 this.modules[row][col + 3] = false;
                         }
+                        // col3
+                        else if (row + 2 < nCount
+                            && this.modules[row + 1][col]
+                            && this.modules[row + 2][col]
+                        ) {
+                            this.modules[row][col] = 10;
+                            this.modules[row + 1][col] =
+                                this.modules[row + 2][col] = false;
 
+                        }
                         //row2col2的时候
                         else if (col + 1 < nCount
                             && row + 1 < nCount
@@ -194,13 +203,13 @@ var toBinary;
                                 this.modules[row][col + 1] = false;
                         }
                         //col2时绘制 
-                        else if (row + 2 < nCount
-                            && this.modules[row + 1][col]
-                            && this.modules[row + 2][col]) {
-                            this.modules[row][col] = 7;
-                            this.modules[row + 1][col] =
-                                this.modules[row + 2][col] = false;
-                        }
+                        // else if (row + 2 < nCount
+                        //     && this.modules[row + 1][col]
+                        //     && this.modules[row + 2][col]) {
+                        //     this.modules[row][col] = 7;
+                        //     this.modules[row + 1][col] =
+                        //         this.modules[row + 2][col] = false;
+                        // }
                         //row2时绘制
                         else if (col + 1 < nCount && this.modules[row][col + 1]) {
                             this.modules[row][col] = 8;
