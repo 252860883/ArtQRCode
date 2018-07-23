@@ -5,23 +5,15 @@ let express = require('express'),
     gm = require('gm'),
     UUID = require('uuid');
 // 转二进制
-let binaryCode = require('./toBinary').getBinary('爸爸妈妈我爱你们', 'L')
+let binaryCode = require('./toBinary').getBinary('韩萌', 'L')
 // console.log(binaryCode)
 
 // 生成二维码
 let computedImg = async function () {
-    let a = gm('./assets/material/border.png')
-    // .font('./font/font.otf')    //设置字体
-    // .fontSize(20)
-    // .drawText(50, 150, 'get my love') //设置水印
-    // .rotate('purple', 5) //旋转
-    // .borderColor('pink')
-    // .border(10, 10) //边框
-    .fill('#ffffff')
-    // .drawRectangle(0, 0, 250, 250)
-    // .draw('image over 10,10,70,70,"./assets/material/col2.png"')
+    let a = gm('./assets/material/border2.png')
+
     for (let i = 0; i < binaryCode.length; i++) {
-        // console.log(binaryCode[i])
+        console.log(binaryCode[i])
         for (let j = 0; j < binaryCode[i].length; j++) {
             drawMaterial(a, binaryCode[i][j], i, j)
 
@@ -31,7 +23,7 @@ let computedImg = async function () {
         }
     }
     // await a.draw('image over 10,10,70,70,"./assets/material/col2.png"')
-    a.rotate('#ffffff', -30) //旋转
+    // a.rotate('transparent', -30) //旋转
     a.write(`./assets/output/avator${UUID.v1()}.jpg`, function (e) { //设置修改好的路径，UUID.v1()基于时间戳生成唯一标示符
         if (e) {
             console.log(e.message)
@@ -52,9 +44,9 @@ let computedImg = async function () {
  * @return {Number} type
  */
 function drawMaterial(ctx, index, row, col) {
-    let unit = 63,//单元大小
-        x = 350,//起始x坐标
-        y = 380;//起始y坐标
+    let unit = 1425/binaryCode.length,//单元大小
+        x = 450,//起始x坐标
+        y = 450;//起始y坐标
     switch (index) {
         case 1: return ctx.draw(`image over ${x + row * unit},${y + col * unit},${unit * 7},${unit * 7} "./assets/material/eye.png"`); break;//eye
         case 2: return ctx.draw(`image over ${x + row * unit},${y + col * unit},${unit * 2},${unit * 3} "./assets/material/row2col3.png"`); break;//row2col3
