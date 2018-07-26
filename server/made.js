@@ -4,20 +4,20 @@ let express = require('express'),
     fs = require('fs'),
     gm = require('gm'),
     UUID = require('uuid');
-// 转二进制
-let binaryCode = require('./toBinary').getBinary('韩萌', 'L')
-// console.log(binaryCode)
+
+let BINARYCODE = require('./utils/toBinary').getBinary('这辈子，我只爱你', 'L')
+let DRAW =require('./utils/drawUnit')
+let matrerial = require('./config/material');
+console.log(matrerial.ELECTRIC)
 
 // 生成二维码
 let computedImg = async function () {
     let a = gm('./assets/material/border2.png')
-
-    for (let i = 0; i < binaryCode.length; i++) {
-        console.log(binaryCode[i])
-        for (let j = 0; j < binaryCode[i].length; j++) {
-            drawMaterial(a, binaryCode[i][j], i, j)
-
-            if (binaryCode[i][j]) {
+    for (let i = 0; i < BINARYCODE.length; i++) {
+        // console.log(BINARYCODE[i])
+        for (let j = 0; j < BINARYCODE[i].length; j++) {
+            drawMaterial(a, BINARYCODE[i][j], i, j)
+            if (BINARYCODE[i][j]) {
                 //    a.draw(`image over ${i * 10},${j * 10},10,10 "./assets/material/eye.png"`) 
             }
         }
@@ -44,11 +44,11 @@ let computedImg = async function () {
  * @return {Number} type
  */
 function drawMaterial(ctx, index, row, col) {
-    let unit = 1425/binaryCode.length,//单元大小
+    let unit = 1425/BINARYCODE.length,//单元大小
         x = 450,//起始x坐标
         y = 450;//起始y坐标
     switch (index) {
-        case 1: return ctx.draw(`image over ${x + row * unit},${y + col * unit},${unit * 7},${unit * 7} "./assets/material/eye.png"`); break;//eye
+        case 1: return ctx.draw(`image over ${x + row * unit},${y + col * unit},${unit * 7},${unit * 7} ${matrerial.ELECTRIC.eye[0]}`); break;//eye
         case 2: return ctx.draw(`image over ${x + row * unit},${y + col * unit},${unit * 2},${unit * 3} "./assets/material/row2col3.png"`); break;//row2col3
         case 3: return ctx.draw(`image over ${x + row * unit},${y + col * unit},${unit * 3},${unit * 2} "./assets/material/row3col2.png"`); break;//row3col2
         case 4: return ctx.draw(`image over ${x + row * unit},${y + col * unit},${unit * 1},${unit * 4} "./assets/material/row4.png"`); break;//row4
@@ -64,7 +64,7 @@ function drawMaterial(ctx, index, row, col) {
 computedImg()
 
 app.get('/', function (req, res) {
-    let a = binaryCode
+    let a = BINARYCODE
     for (let i = 0; i < a.length; i++) {
         for (let j = 0; j < a.length; j++) {
             if (a[i][j] === true) {
