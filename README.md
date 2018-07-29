@@ -26,6 +26,7 @@ node made.js
 ```
 
 ### 目录结构
+```
 .
 ├── assets              // 素材存放目录
 │   └── material
@@ -39,7 +40,7 @@ node made.js
     ├── drawUnit.js     // 绘制单元素材
     └── toBinary.js     // 文字转二进制算法
 
-
+```
 
 ---
 ## 前端版
