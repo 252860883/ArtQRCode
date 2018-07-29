@@ -11,7 +11,7 @@
 
 ---
 ## nodejs版
->nodejs版引入了![gm](https://github.com/aheckmann/gm)库实现图像的绘制，需要额外安装`imagemagick`和`graphicsmagick`。
+>nodejs版引入了 [gm](https://github.com/aheckmann/gm) 库实现图像的绘制，需要额外安装`imagemagick`和`graphicsmagick`。
 
 ### 安装运行
 ```
@@ -19,15 +19,31 @@ cd server
 
 npm install
 
-npm install imagemagick
-npm install graphicsmagick
+npm install imagemagick graphicsmagick
 
 node made.js
 
 ```
 
+### 目录结构
+.
+├── assets              // 素材存放目录
+│   └── material
+├── config
+│   └── material.js     // 素材路径文件
+├── dist                // 存放生成的素材
+├── font
+├── node_modules
+├── made.js             // 项目的主入口
+└── utils
+    ├── drawUnit.js     // 绘制单元素材
+    └── toBinary.js     // 文字转二进制算法
+
+
+
 ---
 ## 前端版
+>前端版基于 QRcode.js 的封装，利用vue-cli脚手架搭建。
 
 ### 安装
 ```
@@ -39,7 +55,7 @@ npm run dev
 ```
  
 
-### 合成二维码核心代码   
+### 合核心代码   
 ```js
  
 /**
