@@ -4,23 +4,28 @@
 
 ### 素材准备
 实现好看的艺术二维码首先需要UI的准备，下图是列出的UI规范。透过UI，我想大家应该对艺术二维码的实现有个大概的了解，主要是将传统的黑色填充优化为彩色素材的拼接。
+
 ![image](http://wx3.sinaimg.cn/mw690/a73bc6a1ly1fml6ed2m30j20s00gzmz1.jpg)    
 
-图中单位尺寸为 50px ，黑字为该素材在下面的代码中的命名。    
-
-注：灰色浅底为辅助展示，实际裁剪时并没有灰色底，裁剪图片一律为png格式的透明底。  
+>注：图中单位尺寸为 50px ，黑字为该素材在下面的代码中的命名。灰色浅底为辅助展示，实际裁剪时并没有灰色底，裁剪图片一律为png格式的透明底。  
 
 ---
 ## nodejs版
+>nodejs版引入了![gm](https://github.com/aheckmann/gm)库实现图像的绘制，需要额外安装`imagemagick`和`graphicsmagick`。
+
 ### 安装运行
 ```
 cd server
 
 npm install
 
+npm install imagemagick
+npm install graphicsmagick
+
 node made.js
 
 ```
+
 ---
 ## 前端版
 
