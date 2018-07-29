@@ -1,4 +1,4 @@
-# Art-QRCode-min     
+![image](http://p70gzm2sm.bkt.clouddn.com/mdBanner%E5%9B%BE.jpg)   
 >此项目做了 nodejs 版和纯前端 js 版，分别对应 server 和 client 文件夹下。
 
 ### 素材尺寸以及命名规范
