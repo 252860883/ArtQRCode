@@ -32,7 +32,7 @@ node made.js
 │   └── material
 ├── config
 │   └── material.js     // 素材路径文件
-├── dist                // 存放生成的素材
+├── dist                // 存放生成的图片
 ├── font
 ├── node_modules
 ├── made.js             // 项目的主入口
