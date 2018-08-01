@@ -15,9 +15,8 @@ let matrerial = require('../config/material');
 function drawMaterialUnit(ctx, index, row, col, length) {
     let
         unit = 1425 / length,//单元大小
-        // unit = 1425,//单元大小
         x = 450,//起始x坐标
-        y = 450;//起始y坐标
+        y = 470;//起始y坐标
     switch (index) {
         case 1: return ctx.draw(`image over ${x + row * unit},${y + col * unit},${unit * 7},${unit * 7} ${getUnitUrl("eye")}`); break;//eye
         case 2: return ctx.draw(`image over ${x + row * unit},${y + col * unit},${unit * 2},${unit * 3} ${getUnitUrl("row2col3")}`); break;//row2col3
