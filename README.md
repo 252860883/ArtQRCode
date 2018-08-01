@@ -1,26 +1,51 @@
-# Art-QRCode-min     
->此项目做了 nodejs 版和纯前端 js 版，分别对应 server 和 client 文件夹下。
+![image](http://p70gzm2sm.bkt.clouddn.com/mdBanner%E5%9B%BE.jpg)   
+<h1 align="center"></h1>
 
-### 素材尺寸以及命名规范
-![image](http://wx3.sinaimg.cn/mw690/a73bc6a1ly1fml6ed2m30j20s00gzmz1.jpg)    
+>注意：此项目做了 nodejs 版和纯前端 js 版，分别对应 server 和 client 文件夹下。
 
-图中单位尺寸为 50px ，黑字为该素材在下面的代码中的命名。    
+### 素材准备
+实现好看的艺术二维码首先需要UI的准备，下图是列出的UI规范。透过UI，我想大家应该对艺术二维码的实现有个大概的了解，其原理主要是将传统的黑色填充优化为彩色素材的拼接。
 
-注：灰色浅底为辅助展示，实际裁剪时并没有灰色底，裁剪图片一律为png格式的透明底。  
+
+![image](http://p70gzm2sm.bkt.clouddn.com/%E6%B3%A8%E9%87%8A.jpg)    
+>注：黑字为该素材在下面的代码中的命名。蓝色浅底为辅助展示，实际裁剪时并没有灰色底，裁剪图片一律为png格式的透明底。  
 
 ---
 ## nodejs版
+>nodejs版引入了 [gm](https://github.com/aheckmann/gm) 库实现图像的绘制，需要额外安装`imagemagick`和`graphicsmagick`。
+
 ### 安装运行
 ```
 cd server
 
 npm install
 
+npm install imagemagick graphicsmagick
+
 node made.js
 
 ```
+
+### 目录结构
+```
+.
+├── assets              // 素材存放目录
+│   └── material
+├── config
+│   └── material.js     // 素材路径文件
+├── dist                // 存放生成的图片
+├── font
+├── node_modules
+├── made.js             // 项目的主入口
+└── utils
+    ├── drawUnit.js     // 绘制单元素材
+    └── toBinary.js     // 文字转二进制算法
+
+```
+
 ---
 ## 前端版
+>前端版基于 QRcode.js 的封装，利用vue-cli脚手架搭建。
 
 ### 安装
 ```
@@ -32,7 +57,7 @@ npm run dev
 ```
  
 
-### 合成二维码核心代码   
+### 合核心代码   
 ```js
  
 /**
