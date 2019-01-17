@@ -14,7 +14,7 @@
 ## nodejs版
 >nodejs版引入了 [gm](https://github.com/aheckmann/gm) 库实现图像的绘制，需要额外安装`imagemagick`和`graphicsmagick`。
 
-### 安装运行
+### 安装及运行
 ```
 cd server
 
