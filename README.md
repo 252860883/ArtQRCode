@@ -1,4 +1,4 @@
-![image](http://p70gzm2sm.bkt.clouddn.com/mdBanner%E5%9B%BE.jpg)   
+![image](http://wx1.sinaimg.cn/large/a73bc6a1ly1fz9rutoazqj21kw0lon0r.jpg)   
 <h1 align="center"></h1>
 
 >注意：此项目做了 nodejs 版和纯前端 js 版，分别对应 server 和 client 文件夹下。
@@ -101,9 +101,9 @@ let qrcode = new QRCode.QRCode(document.getElementById("qrcode"), {
 
 ### 效果展示
 #### 界面
-![image](http://wx2.sinaimg.cn/mw690/a73bc6a1ly1flv9o0y775j20yj0hpk0d.jpg)  
+![image](http://wx2.sinaimg.cn/large/a73bc6a1ly1flv9o0y775j20yj0hpk0d.jpg)  
 #### 生成艺术二维码示例：
-![image](http://wx2.sinaimg.cn/mw690/a73bc6a1ly1fmeydtz4jej21kw0qzgz6.jpg)
+![image](http://wx2.sinaimg.cn/large/a73bc6a1ly1fmeydtz4jej21kw0qzgz6.jpg)
 
 ---
 
@@ -113,4 +113,4 @@ let qrcode = new QRCode.QRCode(document.getElementById("qrcode"), {
 - We meet in the network,please cherish this fate
 - 欢迎issue,wechat请扫👇
 
- ![image](http://wx4.sinaimg.cn/mw690/a73bc6a1ly1fro1yi2i4lj21kw0xhn2i.jpg)
+ ![image](http://wx4.sinaimg.cn/large/a73bc6a1ly1fro1yi2i4lj21kw0xhn2i.jpg)
