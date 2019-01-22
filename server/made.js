@@ -23,7 +23,7 @@ let computedImg = async function () {
         }
     }
     // await a.draw('image over 10,10,70,70,"./assets/material/col2.png"')
-    a.rotate('white', -30) //旋转
+    a.rotate('white', -15) //旋转
     a.write(`./dist/avator${UUID.v1()}.jpg`, function (e) { //设置修改好的路径，UUID.v1()基于时间戳生成唯一标示符
         if (e) {
             // console.log(e.message)
