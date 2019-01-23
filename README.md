@@ -46,6 +46,7 @@ node made.js
 ---
 ## 前端版
 >前端版基于 QRcode.js 的封装，利用vue-cli脚手架搭建。
+>体验地址：https://magicaldinosaur.github.io/art-qrcode-show/#/
 
 ### 安装
 ```
