@@ -49,6 +49,7 @@ node made.js
 
 >体验地址：https://magicaldinosaur.github.io/art-qrcode-show/#/
 
+
 ### 安装
 ```
 cd client 
