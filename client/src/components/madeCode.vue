@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import  QRCode  from "../core/art-qrcode";
+import "../core/art-qrcode";
 import list from "../components/list";
 import error from "../components/error";
 
@@ -215,8 +215,7 @@ export default {
       /**
        * QRCode的第一个参数是二维码要绘制到的dom
        */
-      console.log("ok");
-      let qrcode = new QRCode.QRCode(document.getElementById("qrcode"), {
+      let qrcode = new QRCode(document.getElementById("qrcode"), {
         /**
          * text：二维码的信息
          */
@@ -246,7 +245,7 @@ export default {
         row2col2: self.UIscource.row2col2,
         corner: self.UIscource.corner
       });
-      
+
       new Promise(resolve => {
         let a = qrcode.getImgUrl();
         resolve(a);

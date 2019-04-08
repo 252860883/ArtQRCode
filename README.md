@@ -64,13 +64,13 @@ npm run dev
 ```js
  
 /**
- * 组件中引入
- * import QRcode from 'core.js';
- * let qrcode = new QRCode.QRCode(DOMElement, {Options配置});
+ * 引入art-qrcode js文件
+ * import "../core/art-qrcode";
+ * let qrcode = new QRCode(DOMElement, {Options配置});
  */   
  
 // 组件中引入配置
-let qrcode = new QRCode.QRCode(document.getElementById("qrcode"), {
+let qrcode = QRCode(document.getElementById("qrcode"), {
         /**
          * text：二维码的信息
          */

@@ -5,7 +5,7 @@
 
 
 //暴露QRCode方法
-var QRCode;
+// var QRCode;
 
 (function () {
     var imgSrc;
@@ -1172,6 +1172,6 @@ var QRCode;
     QRCode.CorrectLevel = QRErrorCorrectLevel;
 })();
 
-export default {
-    QRCode: QRCode
-}
+// export default {
+//     QRCode: QRCode
+// }
