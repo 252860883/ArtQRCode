@@ -61,8 +61,7 @@ npm run dev
  
 
 ### 合核心代码   
-```js
- 
+```js 
 // 引入art-qrcode js文件
 import "../core/art-qrcode";
 // 组件中引入配置
@@ -95,7 +94,7 @@ let qrcode = QRCode(document.getElementById("qrcode"), {
         single: self.UIscource.single,
         row2col2: self.UIscource.row2col2,
         corner:self.UIscource.corner
-      });
+});
 ```  
 
 ### 效果展示
