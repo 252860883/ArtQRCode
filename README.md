@@ -63,12 +63,8 @@ npm run dev
 ### 合核心代码   
 ```js
  
-/**
- * 引入art-qrcode js文件
- * import "../core/art-qrcode";
- * let qrcode = new QRCode(DOMElement, {Options配置});
- */   
- 
+// 引入art-qrcode js文件
+import "../core/art-qrcode";
 // 组件中引入配置
 let qrcode = QRCode(document.getElementById("qrcode"), {
         /**
