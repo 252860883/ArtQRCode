@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./common/art-qrcode.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="qrcode"></div>
+</body>
+<script>
+    document.getElementById("qrcode").innerHTML = "";
+    /**
+     * QRCode的第一个参数是二维码要绘制到的dom
+     */
+    var images = new Image();
+    images.src = "./component/single.png"
+    images.onload = () => {
+        let qrcode = new QRCode(document.getElementById("qrcode"), {
+            /**
+             * text：二维码的信息
+             */
+            text: "abc",
+            /**
+             * width,height 是二维码的长宽
+             * bgWidth,bgHeight 是整张图片的大小
+             * top,left 是二维码距离整图的距离
+             */
+            width: 200,
+            height: 200,
+            bgWidth: 200,
+            bgHeight: 200,
+            top: 10,
+            left: 10,
+            /**
+             * 对应每种遍历情况的填充图案
+             */
+            // border: "./component/border.png",
+            // eye: self.UIscource.eye,
+            // col2: self.UIscource.col2,
+            // row4: self.UIscource.row4,
+            // row3: self.UIscource.row3,
+            // row2col3: self.UIscource.row2col3,
+            // row3col2: self.UIscource.row3col2,
+            // single: "http://www.duhonghui.top/static/media/main-item3.ab5614ca.png",
+            single: images,
+            // row2col2: self.UIscource.row2col2,
+            // corner: "./component/border.png"
+        });
+    }
+
+</script>
+
+</html>
