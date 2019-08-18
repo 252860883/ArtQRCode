@@ -23,41 +23,44 @@
     /**
      * QRCode的第一个参数是二维码要绘制到的dom
      */
-    var images = new Image();
-    images.src = "./component/single.png"
-    images.onload = () => {
-        let qrcode = new QRCode(document.getElementById("qrcode"), {
-            /**
-             * text：二维码的信息
-             */
-            text: "abc",
-            /**
-             * width,height 是二维码的长宽
-             * bgWidth,bgHeight 是整张图片的大小
-             * top,left 是二维码距离整图的距离
-             */
-            width: 200,
-            height: 200,
-            bgWidth: 200,
-            bgHeight: 200,
-            top: 10,
-            left: 10,
+    // var images = new Image();
+    // images.src = "./component/single.png"
+    // images.onload = () => {
+    let qrcode = new QRCode(document.getElementById("qrcode"), {
+        /**
+         * text：二维码的信息
+         */
+        text: "abc",
+        /**
+         * width,height 是二维码的长宽
+         * bgWidth,bgHeight 是整张图片的大小
+         * top,left 是二维码距离整图的距离
+         */
+        width: 200,
+        height: 200,
+        bgWidth: 200,
+        bgHeight: 200,
+        top: 0,
+        left: 0,
+        materials: {
             /**
              * 对应每种遍历情况的填充图案
              */
             // border: "./component/border.png",
-            // eye: self.UIscource.eye,
-            // col2: self.UIscource.col2,
-            // row4: self.UIscource.row4,
-            // row3: self.UIscource.row3,
+            eye: "./component/eye.png",
+            col2: "./component/col2.png",
+            row4: "./component/row4.png",
+            row3: "./component/row3.png",
             // row2col3: self.UIscource.row2col3,
-            // row3col2: self.UIscource.row3col2,
-            // single: "http://www.duhonghui.top/static/media/main-item3.ab5614ca.png",
-            single: images,
-            // row2col2: self.UIscource.row2col2,
+            // row3col2: "./component/row3col2.png",
+            // single: "http://wx4.sinaimg.cn/mw690/a73bc6a1ly8g1ws94rxuoj20ig0ig3zp.jpg",
+            single: "./component/single.png",
+            row2col2: "./component/row2col2.png",
             // corner: "./component/border.png"
-        });
-    }
+        }
+
+    });
+    // }
 
 </script>
 

@@ -676,6 +676,7 @@
     // Drawing in Canvas
     var Drawing = (function () {
         function _onMakeImage() {
+            console.log(this)
             this._elImage.src = this._elCanvas.toDataURL("image/png");
             this._elImage.style.display = "block";
             this._elCanvas.style.display = "none";
@@ -734,18 +735,6 @@
         var Drawing = function (el, htOption) {
             this._bIsPainted = false;
             this._htOption = htOption;
-
-            this.border = htOption.border;
-            this.eye = htOption.eye;
-            this.col2 = htOption.col2;
-            this.row4 = htOption.row4;
-            this.row3 = htOption.row3;
-            this.single = htOption.single;
-            this.row2col3 = htOption.row2col3;
-            this.row3col2 = htOption.row3col2;
-            this.row2col2 = htOption.row2col2;
-            this.corner = htOption.corner;
-
             this._elCanvas = document.createElement("canvas");
             this._elCanvas.style.display = "none";
 
@@ -792,27 +781,38 @@
             var bgHeight = _htOption.bgHeight;
             var top = _htOption.top;
             var left = _htOption.left;
+            var materials = _htOption.materials;
 
+            // this.border = htOption.border;
+            // this.eye = htOption.eye;
+            // this.col2 = htOption.col2;
+            // this.row4 = htOption.row4;
+            // this.row3 = htOption.row3;
+            // this.single = htOption.single;
+            // this.row2col3 = htOption.row2col3;
+            // this.row3col2 = htOption.row3col2;
+            // this.row2col2 = htOption.row2col2;
+            // this.corner = htOption.corner;
 
             _elImage.style.display = "none";
             this.clear();
 
             // draw art-qrcode background
             _oContext.fillStyle = _htOption.colorLight;
-            this.border ? _oContext.drawImage(this.border, 0, 0, bgWidth, bgHeight) : _oContext.fillRect(0, 0, bgWidth, bgHeight)
+            materials.border ? _oContext.drawImage(materials.border, 0, 0, bgWidth, bgHeight) : _oContext.fillRect(0, 0, bgWidth, bgHeight)
 
             var isDraw = JSON.parse(JSON.stringify(oQRCode.modules));
 
             for (var row = 0; row < nCount; row++) {
                 for (var col = 0; col < nCount; col++) {
-                    var bIsDark = oQRCode.isDark(row, col);
-                    var nLeft = (col - 1) * nWidth + left;
-                    var nTop = (row - 1) * nHeight + top;
+                    // var bIsDark = oQRCode.isDark(row, col);
+                    var nLeft = col * nWidth + left;
+                    var nTop = row * nHeight + top;
 
                     if (isDraw[row][col]) {
                         //draw eye
-                        if (this.eye && (row == 0 && col == 0 || row + 7 == nCount && col == 0 || row == 0 && col + 7 == nCount)) {
-                            _oContext.drawImage(this.eye, nLeft, nTop, nWidth * 7, nHeight * 7);
+                        if (materials.eye && (row == 0 && col == 0 || row + 7 == nCount && col == 0 || row == 0 && col + 7 == nCount)) {
+                            _oContext.drawImage(materials.eye, nLeft, nTop, nWidth * 7, nHeight * 7);
                             for (var i = 0; i < 7; i++) {
                                 for (var j = 0; j < 7; j++) {
                                     isDraw[row + i][col + j] = false;
@@ -820,43 +820,44 @@
                             }
                         }
                         //draw row2col3
-                        else if (this.row2col3 && row + 1 < nCount && col + 2 < nCount && isDraw[row + 1][col] && isDraw[row][col + 1] && isDraw[row + 1][col + 1] && isDraw[row][col + 2] && isDraw[row + 1][col + 2]) {
-                            _oContext.drawImage(this.row2col3, nLeft, nTop, nWidth * 3, nHeight * 2);
+                        else if (materials.row2col3 && row + 1 < nCount && col + 2 < nCount && isDraw[row + 1][col] && isDraw[row][col + 1] && isDraw[row + 1][col + 1] && isDraw[row][col + 2] && isDraw[row + 1][col + 2]) {
+                            _oContext.drawImage(materials.row2col3, nLeft, nTop, nWidth * 3, nHeight * 2);
                             isDraw[row][col] = isDraw[row + 1][col] = isDraw[row][col + 1] = isDraw[row + 1][col + 1] = isDraw[row][col + 2] = isDraw[row + 1][col + 2] = false;
                         }
                         //draw row3col2
-                        else if (this.row3col2 && row + 2 < nCount && col + 1 < nCount && isDraw[row + 1][col] && isDraw[row + 2][col] && isDraw[row + 1][col + 1] && isDraw[row + 2][col + 1] && isDraw[row][col + 1]) {
-                            _oContext.drawImage(this.row3col2, nLeft, nTop, nWidth * 2, nHeight * 3);
+                        else if (materials.row3col2 && row + 2 < nCount && col + 1 < nCount && isDraw[row + 1][col] && isDraw[row + 2][col] && isDraw[row + 1][col + 1] && isDraw[row + 2][col + 1] && isDraw[row][col + 1]) {
+                            _oContext.drawImage(materials.row3col2, nLeft, nTop, nWidth * 2, nHeight * 3);
                             isDraw[row][col] = isDraw[row + 1][col] = isDraw[row + 2][col] = isDraw[row + 1][col + 1] = isDraw[row + 2][col + 1] = isDraw[row][col + 1] = false;
                         }
                         //draw row4
-                        else if (this.row4 && row + 3 < nCount && isDraw[row + 1][col] && isDraw[row + 2][col] && isDraw[row + 3][col]) {
-                            _oContext.drawImage(this.row4, nLeft, nTop, nWidth * 1, nHeight * 4);
+                        else if (materials.row4 && row + 3 < nCount && isDraw[row + 1][col] && isDraw[row + 2][col] && isDraw[row + 3][col]) {
+                            _oContext.drawImage(materials.row4, nLeft, nTop, nWidth * 1, nHeight * 4);
                             isDraw[row][col] = isDraw[row + 1][col] = isDraw[row + 2][col] = isDraw[row + 3][col] = false;
                         }
                         //draw row2col2
-                        else if (this.row2col2 && col + 1 < nCount && row + 1 < nCount && isDraw[row][col + 1] && isDraw[row + 1][col] && isDraw[row + 1][col + 1]) {
-                            _oContext.drawImage(this.row2col2, nLeft, nTop, nWidth * 2, nHeight * 2);
+                        else if (materials.row2col2 && col + 1 < nCount && row + 1 < nCount && isDraw[row][col + 1] && isDraw[row + 1][col] && isDraw[row + 1][col + 1]) {
+                            _oContext.drawImage(materials.row2col2, nLeft, nTop, nWidth * 2, nHeight * 2);
                             isDraw[row][col] = isDraw[row + 1][col] = isDraw[row][col + 1] = isDraw[row + 1][col + 1] = false;
                         }
                         //draw row2col1
-                        else if (this.corner && col + 1 < nCount && row + 1 < nCount && isDraw[row][col + 1] && isDraw[row + 1][col]) {
-                            _oContext.drawImage(this.corner, nLeft, nTop, nWidth * 2, nHeight * 2);
+                        else if (materials.corner && col + 1 < nCount && row + 1 < nCount && isDraw[row][col + 1] && isDraw[row + 1][col]) {
+                            _oContext.drawImage(materials.corner, nLeft, nTop, nWidth * 2, nHeight * 2);
                             isDraw[row][col] = isDraw[row + 1][col] = isDraw[row][col + 1] = false;
                         }
                         //draw row2 
-                        else if (this.row3 && row + 2 < nCount && isDraw[row + 1][col] && isDraw[row + 2][col]) {
-                            _oContext.drawImage(this.row3, nLeft, nTop, nWidth, nHeight * 3);
+                        else if (materials.row3 && row + 2 < nCount && isDraw[row + 1][col] && isDraw[row + 2][col]) {
+                            _oContext.drawImage(materials.row3, nLeft, nTop, nWidth, nHeight * 3);
                             isDraw[row][col] = isDraw[row + 1][col] = isDraw[row + 2][col] = false;
                         }
                         //draw col2
-                        else if (this.col2 && col + 1 < nCount && isDraw[row][col + 1]) {
-                            _oContext.drawImage(this.col2, nLeft, nTop, nWidth * 2, nHeight);
+                        else if (materials.col2 && col + 1 < nCount && isDraw[row][col + 1]) {
+                            _oContext.drawImage(materials.col2, nLeft, nTop, nWidth * 2, nHeight);
                             isDraw[row][col] = isDraw[row][col + 1] = false;
                         }
                         //draw single
-                        else if (this.single && isDraw[row][col]) {
-                            _oContext.drawImage(this.single, nLeft, nTop, nWidth, nHeight);
+                        else if (materials.single && isDraw[row][col]) {
+                            // console.log(materials.single)
+                            _oContext.drawImage(materials.single, nLeft, nTop, nWidth, nHeight);
                             isDraw[row][col] = false;
                         }
                         // none material draw colorDark
@@ -1024,15 +1025,18 @@
             colorLight: "#ffffff",
             correctLevel: QRErrorCorrectLevel.L,
             // material options
-            eye: "",
-            col2: "",
-            row4: "",
-            row3: "",
-            single: "",
-            row2col3: "",
-            row3col2: "",
-            row2col2: "",
-            corner: ""
+            materials: {
+                eye: "",
+                col2: "",
+                row4: "",
+                row3: "",
+                single: "",
+                row2col3: "",
+                row3col2: "",
+                row2col2: "",
+                corner: ""
+            }
+
         };
         if (typeof vOption === 'string') {
             vOption = {
@@ -1081,23 +1085,29 @@
      * load all materials
      */
     QRCode.prototype.loadMaterial = function (sText) {
-        var _self = this;
-        this.materials = [this.border, this.eye, this.col2, this.row4, this.row3, this.single, this.row2col3, this.row3col2, this.row2col2, this.corner]
-        this.count = 0;
+        var _self = this,
+            count = 0,
+            materials = Object.getOwnPropertyNames(this._htOption.materials)
         function materialsLoaded() {
-            _self.count++
-            if (_self.count === _self.materials.length) {
+            count++;
+            if (count === materials.length) {
                 // material all loaded then draw 
-                _self.makeCode(sText);
+                setTimeout(function () {
+                    console.log('all load');
+                    _self.makeCode(sText);
+                }, 500)
             }
         }
-        for (var i = 0; i < this.materials.length; i++) {
-            if (!this.materials[i]) {
-                materialsLoaded()
+        for (var i = 0; i < materials.length; i++) {
+            var prop = materials[i];
+            if (!prop) {
+                materialsLoaded();
             } else {
-                this.single = new Image()
-                this.single.src = this.materials[i]
-                this.single.onload = materialsLoaded()
+                var src = this._htOption.materials[prop];
+                this._htOption.materials[prop] = new Image();
+                this._htOption.materials[prop].src = src;
+                this._htOption.materials[prop].setAttribute("crossOrigin",'Anonymous');
+                this._htOption.materials[prop].onload = materialsLoaded();
             }
         }
     }
