@@ -676,7 +676,6 @@
     // Drawing in Canvas
     var Drawing = (function () {
         function _onMakeImage() {
-            console.log(this)
             this._elImage.src = this._elCanvas.toDataURL("image/png");
             this._elImage.style.display = "block";
             this._elCanvas.style.display = "none";
@@ -725,6 +724,21 @@
         };
 
         /**
+         * get a material to draw
+         *
+         * @private
+         * @param {Function} fSuccess Occurs if it supports Data URI
+         * 
+         */
+        function _getRealMaterial(material) {
+            if (material instanceof Array) {
+                return material[Math.floor(Math.random() * material.length)];
+            } else {
+                return material;
+            }
+        }
+
+        /**
          * Drawing QRCode by using canvas
          * 
          * @constructor
@@ -741,8 +755,8 @@
             /**
              * 解决 canvas模糊的问题
              * 图像放大二倍，在实际dom中再缩小为50%
-             * 
              * */
+
             this._elCanvas.width = htOption.bgWidth * 2;
             this._elCanvas.height = htOption.bgHeight * 2;
             el.appendChild(this._elCanvas);
@@ -757,7 +771,6 @@
             this._elImage.style.height = htOption.bgHeight + 'px';
 
             this._elImage.style.display = "none";
-            // this._elImage.setAttribute('crossOrigin', 'anonymous');//设置图片可以跨域访问 
             this._el.appendChild(this._elImage);
             this._bSupportDataURI = null;
         };
@@ -782,17 +795,7 @@
             var top = _htOption.top;
             var left = _htOption.left;
             var materials = _htOption.materials;
-
-            // this.border = htOption.border;
-            // this.eye = htOption.eye;
-            // this.col2 = htOption.col2;
-            // this.row4 = htOption.row4;
-            // this.row3 = htOption.row3;
-            // this.single = htOption.single;
-            // this.row2col3 = htOption.row2col3;
-            // this.row3col2 = htOption.row3col2;
-            // this.row2col2 = htOption.row2col2;
-            // this.corner = htOption.corner;
+            var isDraw = JSON.parse(JSON.stringify(oQRCode.modules));
 
             _elImage.style.display = "none";
             this.clear();
@@ -801,8 +804,7 @@
             _oContext.fillStyle = _htOption.colorLight;
             materials.border ? _oContext.drawImage(materials.border, 0, 0, bgWidth, bgHeight) : _oContext.fillRect(0, 0, bgWidth, bgHeight)
 
-            var isDraw = JSON.parse(JSON.stringify(oQRCode.modules));
-
+            // draw normal material
             for (var row = 0; row < nCount; row++) {
                 for (var col = 0; col < nCount; col++) {
                     // var bIsDark = oQRCode.isDark(row, col);
@@ -844,10 +846,20 @@
                             _oContext.drawImage(materials.corner, nLeft, nTop, nWidth * 2, nHeight * 2);
                             isDraw[row][col] = isDraw[row + 1][col] = isDraw[row][col + 1] = false;
                         }
-                        //draw row2 
+                        //draw row3 
                         else if (materials.row3 && row + 2 < nCount && isDraw[row + 1][col] && isDraw[row + 2][col]) {
                             _oContext.drawImage(materials.row3, nLeft, nTop, nWidth, nHeight * 3);
                             isDraw[row][col] = isDraw[row + 1][col] = isDraw[row + 2][col] = false;
+                        }
+                        //draw col3
+                        else if (materials.col3 && col + 1 < nCount && isDraw[row][col + 1] && isDraw[row][col + 2]) {
+                            _oContext.drawImage(materials.col3, nLeft, nTop, nWidth * 3, nHeight);
+                            isDraw[row][col] = isDraw[row][col + 1] = isDraw[row][col + 2] = false;
+                        }
+                        //draw row2
+                        else if (materials.row2 && row + 2 < nCount && isDraw[row + 1][col]) {
+                            _oContext.drawImage(materials.row2, nLeft, nTop, nWidth, nHeight * 2);
+                            isDraw[row][col] = isDraw[row + 1][col] = false;
                         }
                         //draw col2
                         else if (materials.col2 && col + 1 < nCount && isDraw[row][col + 1]) {
@@ -857,7 +869,7 @@
                         //draw single
                         else if (materials.single && isDraw[row][col]) {
                             // console.log(materials.single)
-                            _oContext.drawImage(materials.single, nLeft, nTop, nWidth, nHeight);
+                            _oContext.drawImage(_getRealMaterial(materials.single), nLeft, nTop, nWidth, nHeight);
                             isDraw[row][col] = false;
                         }
                         // none material draw colorDark
@@ -867,22 +879,6 @@
                             isDraw[row][col] = false;
                         }
                     }
-
-                    _oContext.lineWidth = 0.5;
-
-                    // _oContext.strokeRect(
-                    //     Math.floor(nLeft) + 0.5,
-                    //     Math.floor(nTop) + 0.5,
-                    //     nRoundedWidth,
-                    //     nRoundedHeight
-                    // );
-                    // _oContext.strokeRect(
-                    //     Math.ceil(nLeft) - 0.5,
-                    //     Math.ceil(nTop) - 0.5,
-                    //     nRoundedWidth,
-                    //     nRoundedHeight
-                    // );
-
                 }
             }
 
@@ -1085,30 +1081,45 @@
      * load all materials
      */
     QRCode.prototype.loadMaterial = function (sText) {
-        var _self = this,
-            count = 0,
-            materials = Object.getOwnPropertyNames(this._htOption.materials)
+        var _self = this;
+        this.count = 0;
+        this.materials = Object.getOwnPropertyNames(this._htOption.materials);
+        this.materialsLength = this.materials.length
         function materialsLoaded() {
-            count++;
-            if (count === materials.length) {
+            this.count++;
+            if (this.count === this.materialsLength) {
                 // material all loaded then draw 
                 setTimeout(function () {
-                    console.log('all load');
                     _self.makeCode(sText);
                 }, 500)
             }
         }
-        for (var i = 0; i < materials.length; i++) {
-            var prop = materials[i];
-            if (!prop) {
+
+        for (var i = 0; i < this.materials.length; i++) {
+            var prop = this.materials[i];
+            var src = this._htOption.materials[prop];
+
+            if (!src) {
                 materialsLoaded();
-            } else {
-                var src = this._htOption.materials[prop];
+            }
+
+            else if (typeof src == 'string') {
                 this._htOption.materials[prop] = new Image();
                 this._htOption.materials[prop].src = src;
-                this._htOption.materials[prop].setAttribute("crossOrigin",'Anonymous');
-                this._htOption.materials[prop].onload = materialsLoaded();
+                this._htOption.materials[prop].onload = materialsLoaded.bind(this);
             }
+
+            else if (src instanceof Array) {
+                for (var j = 0; j < src.length; j++) {
+                    j && this.materialsLength++;
+                    var childSrc = this._htOption.materials[prop][j];
+                    this._htOption.materials[prop][j] = new Image();
+                    this._htOption.materials[prop][j].src = childSrc;
+                    this._htOption.materials[prop][j].onload = materialsLoaded.bind(this);
+                }
+
+            }
+
         }
     }
 
