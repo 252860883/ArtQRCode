@@ -727,7 +727,7 @@
          * get a material to draw
          *
          * @private
-         * @param {Function} fSuccess Occurs if it supports Data URI
+         * @param {String | Array} material input the original material
          * 
          */
         function _getRealMaterial(material) {
@@ -788,14 +788,12 @@
             var nCount = oQRCode.getModuleCount();
             var nWidth = _htOption.width / nCount;
             var nHeight = _htOption.height / nCount;
-            var nRoundedWidth = Math.round(nWidth);
-            var nRoundedHeight = Math.round(nHeight);
             var bgWidth = _htOption.bgWidth;
             var bgHeight = _htOption.bgHeight;
             var top = _htOption.top;
             var left = _htOption.left;
             var materials = _htOption.materials;
-            var isDraw = JSON.parse(JSON.stringify(oQRCode.modules));
+            var drawModules = JSON.parse(JSON.stringify(oQRCode.modules));
 
             _elImage.style.display = "none";
             this.clear();
@@ -804,6 +802,49 @@
             _oContext.fillStyle = _htOption.colorLight;
             materials.border ? _oContext.drawImage(materials.border, 0, 0, bgWidth, bgHeight) : _oContext.fillRect(0, 0, bgWidth, bgHeight)
 
+            /**
+             * judging whether the current unit satisfies this material Rule
+             *
+             * @private
+             * @param {Number} row the current row index
+             * @param {Number} col the current col index
+             * @param {Number} rowRange the row index Range
+             * @param {Number} colRange the col index Range
+             * 
+             */
+            function _isSatisfyUnit(row, col, rowRange, colRange) {
+                var isSatisfy = true;
+                if (!(row + rowRange <= nCount) || !(col + colRange <= nCount)) {
+                    return false;
+                }
+                for (var i = 0; i < rowRange; i++) {
+                    for (var j = 0; j < colRange; j++) {
+                        if (!drawModules[row + i][col + j]) {
+                            return false
+                        }
+                    }
+                }
+                return isSatisfy;
+            }
+
+            /**
+             * When the material is drawn, modify the draw modules
+             *
+             * @private
+             * @param {Number} row the current row index
+             * @param {Number} col the current col index
+             * @param {Number} rowRange the row index Range
+             * @param {Number} colRange the col index Range
+             * 
+             */
+            function _updateDrawModules(row, col, rowRange, colRange) {
+                for (var i = 0; i < rowRange; i++) {
+                    for (var j = 0; j < colRange; j++) {
+                        drawModules[row + i][col + j] = false
+                    }
+                }
+            }
+
             // draw normal material
             for (var row = 0; row < nCount; row++) {
                 for (var col = 0; col < nCount; col++) {
@@ -811,72 +852,73 @@
                     var nLeft = col * nWidth + left;
                     var nTop = row * nHeight + top;
 
-                    if (isDraw[row][col]) {
+                    if (drawModules[row][col]) {
                         //draw eye
                         if (materials.eye && (row == 0 && col == 0 || row + 7 == nCount && col == 0 || row == 0 && col + 7 == nCount)) {
-                            _oContext.drawImage(materials.eye, nLeft, nTop, nWidth * 7, nHeight * 7);
-                            for (var i = 0; i < 7; i++) {
-                                for (var j = 0; j < 7; j++) {
-                                    isDraw[row + i][col + j] = false;
-                                }
-                            }
+                            _oContext.drawImage(_getRealMaterial(materials.eye), nLeft, nTop, nWidth * 7, nHeight * 7);
+                            _updateDrawModules(row, col, 7, 7);
                         }
-                        //draw row2col3
-                        else if (materials.row2col3 && row + 1 < nCount && col + 2 < nCount && isDraw[row + 1][col] && isDraw[row][col + 1] && isDraw[row + 1][col + 1] && isDraw[row][col + 2] && isDraw[row + 1][col + 2]) {
-                            _oContext.drawImage(materials.row2col3, nLeft, nTop, nWidth * 3, nHeight * 2);
-                            isDraw[row][col] = isDraw[row + 1][col] = isDraw[row][col + 1] = isDraw[row + 1][col + 1] = isDraw[row][col + 2] = isDraw[row + 1][col + 2] = false;
+                        //draw row2col3 
+                        else if (materials.row2col3 && _isSatisfyUnit(row, col, 2, 3)) {
+                            _oContext.drawImage(_getRealMaterial(materials.row2col3), nLeft, nTop, nWidth * 3, nHeight * 2);
+                            _updateDrawModules(row, col, 2, 3);
                         }
                         //draw row3col2
-                        else if (materials.row3col2 && row + 2 < nCount && col + 1 < nCount && isDraw[row + 1][col] && isDraw[row + 2][col] && isDraw[row + 1][col + 1] && isDraw[row + 2][col + 1] && isDraw[row][col + 1]) {
-                            _oContext.drawImage(materials.row3col2, nLeft, nTop, nWidth * 2, nHeight * 3);
-                            isDraw[row][col] = isDraw[row + 1][col] = isDraw[row + 2][col] = isDraw[row + 1][col + 1] = isDraw[row + 2][col + 1] = isDraw[row][col + 1] = false;
+                        else if (materials.row3col2 && _isSatisfyUnit(row, col, 3, 2)) {
+                            _oContext.drawImage(_getRealMaterial(materials.row3col2), nLeft, nTop, nWidth * 2, nHeight * 3);
+                            _updateDrawModules(row, col, 3, 2);
                         }
                         //draw row4
-                        else if (materials.row4 && row + 3 < nCount && isDraw[row + 1][col] && isDraw[row + 2][col] && isDraw[row + 3][col]) {
-                            _oContext.drawImage(materials.row4, nLeft, nTop, nWidth * 1, nHeight * 4);
-                            isDraw[row][col] = isDraw[row + 1][col] = isDraw[row + 2][col] = isDraw[row + 3][col] = false;
+                        else if (materials.row4 && _isSatisfyUnit(row, col, 4, 1)) {
+                            _oContext.drawImage(_getRealMaterial(materials.row4), nLeft, nTop, nWidth * 1, nHeight * 4);
+                            _updateDrawModules(row, col, 4, 1);
+                        }
+                        // draw col4
+                        else if (materials.col4 && _isSatisfyUnit(row, col, 1, 4)) {
+                            _oContext.drawImage(_getRealMaterial(materials.col4), nLeft, nTop, nWidth * 4, nHeight);
+                            _updateDrawModules(row, col, 1, 4);
                         }
                         //draw row2col2
-                        else if (materials.row2col2 && col + 1 < nCount && row + 1 < nCount && isDraw[row][col + 1] && isDraw[row + 1][col] && isDraw[row + 1][col + 1]) {
-                            _oContext.drawImage(materials.row2col2, nLeft, nTop, nWidth * 2, nHeight * 2);
-                            isDraw[row][col] = isDraw[row + 1][col] = isDraw[row][col + 1] = isDraw[row + 1][col + 1] = false;
-                        }
-                        //draw row2col1
-                        else if (materials.corner && col + 1 < nCount && row + 1 < nCount && isDraw[row][col + 1] && isDraw[row + 1][col]) {
-                            _oContext.drawImage(materials.corner, nLeft, nTop, nWidth * 2, nHeight * 2);
-                            isDraw[row][col] = isDraw[row + 1][col] = isDraw[row][col + 1] = false;
+                        else if (materials.row2col2 && _isSatisfyUnit(row, col, 2, 2)) {
+                            _oContext.drawImage(_getRealMaterial(materials.row2col2), nLeft, nTop, nWidth * 2, nHeight * 2);
+                            _updateDrawModules(row, col, 2, 2);
                         }
                         //draw row3 
-                        else if (materials.row3 && row + 2 < nCount && isDraw[row + 1][col] && isDraw[row + 2][col]) {
-                            _oContext.drawImage(materials.row3, nLeft, nTop, nWidth, nHeight * 3);
-                            isDraw[row][col] = isDraw[row + 1][col] = isDraw[row + 2][col] = false;
+                        else if (materials.row3 && _isSatisfyUnit(row, col, 3, 1)) {
+                            _oContext.drawImage(_getRealMaterial(materials.row3), nLeft, nTop, nWidth, nHeight * 3);
+                            _updateDrawModules(row, col, 3, 1);
                         }
                         //draw col3
-                        else if (materials.col3 && col + 1 < nCount && isDraw[row][col + 1] && isDraw[row][col + 2]) {
-                            _oContext.drawImage(materials.col3, nLeft, nTop, nWidth * 3, nHeight);
-                            isDraw[row][col] = isDraw[row][col + 1] = isDraw[row][col + 2] = false;
+                        else if (materials.col3 && _isSatisfyUnit(row, col, 1, 3)) {
+                            _oContext.drawImage(_getRealMaterial(materials.col3), nLeft, nTop, nWidth * 3, nHeight);
+                            _updateDrawModules(row, col, 1, 3);
+                        }
+                        //draw corner
+                        else if (materials.corner && _isSatisfyUnit(row, col, 2, 1) && _isSatisfyUnit(row, col, 1, 2)) {
+                            _oContext.drawImage(_getRealMaterial(materials.corner), nLeft, nTop, nWidth * 2, nHeight * 2);
+                            _updateDrawModules(row, col, 2, 2);
                         }
                         //draw row2
-                        else if (materials.row2 && row + 2 < nCount && isDraw[row + 1][col]) {
-                            _oContext.drawImage(materials.row2, nLeft, nTop, nWidth, nHeight * 2);
-                            isDraw[row][col] = isDraw[row + 1][col] = false;
+                        else if (materials.row2 && _isSatisfyUnit(row, col, 2, 1)) {
+                            _oContext.drawImage(_getRealMaterial(materials.row2), nLeft, nTop, nWidth, nHeight * 2);
+                            _updateDrawModules(row, col, 2, 1);
                         }
                         //draw col2
-                        else if (materials.col2 && col + 1 < nCount && isDraw[row][col + 1]) {
-                            _oContext.drawImage(materials.col2, nLeft, nTop, nWidth * 2, nHeight);
-                            isDraw[row][col] = isDraw[row][col + 1] = false;
+                        else if (materials.col2 && _isSatisfyUnit(row, col, 1, 2)) {
+                            _oContext.drawImage(_getRealMaterial(materials.col2), nLeft, nTop, nWidth * 2, nHeight);
+                            _updateDrawModules(row, col, 1, 2);
                         }
                         //draw single
-                        else if (materials.single && isDraw[row][col]) {
+                        else if (materials.single && drawModules[row][col]) {
                             // console.log(materials.single)
                             _oContext.drawImage(_getRealMaterial(materials.single), nLeft, nTop, nWidth, nHeight);
-                            isDraw[row][col] = false;
+                            drawModules[row][col] = false;
                         }
                         // none material draw colorDark
                         else {
                             _oContext.fillStyle = _htOption.colorDark;
                             _oContext.fillRect(nLeft, nTop, nWidth, nHeight);
-                            isDraw[row][col] = false;
+                            drawModules[row][col] = false;
                         }
                     }
                 }
@@ -988,10 +1030,10 @@
      *
      * @example
      * var oQRCode = new QRCode("test", {
-	 *    text : "http://naver.com",
-	 *    width : 128,
-	 *    height : 128
-	 * });
+     *    text : "http://naver.com",
+     *    width : 128,
+     *    height : 128
+     * });
      *
      * oQRCode.clear(); // Clear the QRCode.
      * oQRCode.makeCode("http://map.naver.com"); // Re-create the QRCode.
@@ -1023,14 +1065,17 @@
             // material options
             materials: {
                 eye: "",
-                col2: "",
-                row4: "",
-                row3: "",
-                single: "",
                 row2col3: "",
                 row3col2: "",
+                row4: "",
+                col4: "",
+                row3: "",
+                col3: "",
                 row2col2: "",
-                corner: ""
+                corner: "",
+                col2: "",
+                row2:"",
+                single: ""
             }
 
         };
