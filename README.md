@@ -1,43 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
+![image](http://wx1.sinaimg.cn/large/a73bc6a1ly1fz9rutoazqj21kw0lon0r.jpg)  
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <script src="./artqrcode.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-        }
-    </style>
-</head>
+>ArtQRCode 是基于 qrcode.js 的基础进行一层封装，支持绘制以图片元素为基元的二维码绘制。
 
-<body>
-    <div id="qrcode"></div>
-</body>
-<script>
+## Basic Usages
+```
+<div id="qrcode"></div>
+<script type="text/javascript">
     let qrcode = new QRCode(document.getElementById("qrcode"), {
-        /**
-         * text：二维码的信息
-         */
         text: "http://www.baidu.com",
-        /**
-         * width,height 是输出图的宽高
-         * codeWidth,codeHeight 是二维码的宽高
-         * top,left 是二维码区域的定位
-         */
         width: 500,
         height: 500,
-        codeWidth: 330,
-        codeHeight: 330,
-        top: 85,
-        left: 85,
-        /**
-         * 素材配置
-         */
         materials: {
             border: "./materials/border.png",
             eye: "./materials/eye.png",
@@ -54,5 +26,4 @@
         }
     });
 </script>
-
-</html>
+```
