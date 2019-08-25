@@ -757,8 +757,8 @@
              * 图像放大二倍，在实际dom中再缩小为50%
              * */
 
-            this._elCanvas.width = htOption.bgWidth * 2;
-            this._elCanvas.height = htOption.bgHeight * 2;
+            this._elCanvas.width = htOption.width * 2;
+            this._elCanvas.height = htOption.height * 2;
             el.appendChild(this._elCanvas);
             this._el = el;
             this._oContext = this._elCanvas.getContext("2d");
@@ -767,8 +767,8 @@
             this._bIsPainted = false;
             this._elImage = document.createElement("img");
             this._elImage.alt = "Scan me!";
-            this._elImage.style.width = htOption.bgWidth + 'px';
-            this._elImage.style.height = htOption.bgHeight + 'px';
+            this._elImage.style.width = htOption.width + 'px';
+            this._elImage.style.height = htOption.height + 'px';
 
             this._elImage.style.display = "none";
             this._el.appendChild(this._elImage);
@@ -786,10 +786,10 @@
             var _htOption = this._htOption;
 
             var nCount = oQRCode.getModuleCount();
-            var nWidth = _htOption.width / nCount;
-            var nHeight = _htOption.height / nCount;
-            var bgWidth = _htOption.bgWidth;
-            var bgHeight = _htOption.bgHeight;
+            var nWidth = _htOption.codeWidth / nCount;
+            var nHeight = _htOption.codeHeight / nCount;
+            var bgWidth = _htOption.width;
+            var bgHeight = _htOption.height;
             var top = _htOption.top;
             var left = _htOption.left;
             var materials = _htOption.materials;
@@ -1054,10 +1054,12 @@
         this._htOption = {
             width: 256,
             height: 256,
-            bgWidth: 350,
-            bgHeight: 500,
-            top: 76,
-            left: 76,
+            bgWidth: 256,
+            bgHeight: 256,
+            codeWidth:256,
+            codeHeight:256,
+            top: 0,
+            left: 0,
             typeNumber: 4,
             colorDark: "#000000",
             colorLight: "#ffffff",
@@ -1074,7 +1076,7 @@
                 row2col2: "",
                 corner: "",
                 col2: "",
-                row2:"",
+                row2: "",
                 single: ""
             }
 
@@ -1090,6 +1092,13 @@
             for (var i in vOption) {
                 this._htOption[i] = vOption[i];
             }
+        }
+
+        if (!vOption.codeWidth) {
+            this._htOption.codeWidth = this._htOption.width;
+        }
+        if (!vOption.codeHeight) {
+            this._htOption.codeHeight = this._htOption.height;
         }
 
         if (typeof el == "string") {
@@ -1147,13 +1156,11 @@
             if (!src) {
                 materialsLoaded();
             }
-
             else if (typeof src == 'string') {
                 this._htOption.materials[prop] = new Image();
                 this._htOption.materials[prop].src = src;
                 this._htOption.materials[prop].onload = materialsLoaded.bind(this);
             }
-
             else if (src instanceof Array) {
                 for (var j = 0; j < src.length; j++) {
                     j && this.materialsLength++;
