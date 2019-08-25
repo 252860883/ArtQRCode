@@ -1,6 +1,6 @@
 ![image](http://wx1.sinaimg.cn/large/a73bc6a1ly1fz9rutoazqj21kw0lon0r.jpg)  
 
->ArtQRCode 是基于 qrcode.js 的基础进行一层封装，支持绘制以图片元素为基元的二维码绘制。
+>ArtQRCode 是基于 qrcode.js 的封装，支持以图片元素为基本单元的二维码绘制。
 
 ## Basic Usages
 ```
