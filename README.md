@@ -7,7 +7,7 @@
 <div id="qrcode"></div>
 <script type="text/javascript">
     let qrcode = new QRCode(document.getElementById("qrcode"), {
-        text: "http://www.baidu.com",
+        text: "https://github.com/252860883/ArtQRCode",
         width: 500,
         height: 500,
         materials: {
