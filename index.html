@@ -20,9 +20,6 @@
 </body>
 <script>
     let qrcode = new QRCode(document.getElementById("qrcode"), {
-        /**
-         * text：二维码的信息
-         */
         text: "http://www.baidu.com",
         /**
          * width,height 是输出图的宽高
@@ -31,26 +28,26 @@
          */
         width: 500,
         height: 500,
-        codeWidth: 330,
-        codeHeight: 330,
+        codeWidth: 320,
+        codeHeight: 320,
         top: 85,
-        left: 85,
+        left: 80,
         /**
          * 素材配置
          */
         materials: {
-            border: "./materials/border.png",
-            eye: "./materials/eye.png",
-            row4: "./materials/row4.png",
-            col4: "./materials/col3.png",
-            row2col3: "./materials/row2col3.png",
-            row3col2: "./materials/row3col2.png",
-            col3: ["./materials/col3.png", "./materials/col3_2.png"],
-            row2col2: "./materials/row2col2.png",
-            corner: "./materials/corner.png",
-            row2: ["./materials/row2.png", "./materials/row2_2.png"],
-            col2: "./materials/col2.png",
-            single: ["./materials/single.png", "./materials/single_2.png"],
+            border: "./materials/electron/border.png",
+            eye: "./materials/electron/eye.png",
+            row4: "./materials/electron/row4.png",
+            col4: "./materials/electron/col3.png",
+            row2col3: "./materials/electron/row2col3.png",
+            row3col2: "./materials/electron/row3col2.png",
+            col3: ["./materials/electron/col3.png", "./materials/electron/col3_2.png"],
+            row2col2: "./materials/electron/row2col2.png",
+            corner: "./materials/electron/corner.png",
+            row2: ["./materials/electron/row2.png", "./materials/electron/row2_2.png"],
+            col2: "./materials/electron/col2.png",
+            single: ["./materials/electron/single.png", "./materials/electron/single_2.png"],
         }
     });
 </script>
