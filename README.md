@@ -5,26 +5,43 @@
 ## Basic Usages
 ```
 <div id="qrcode"></div>
-<script type="text/javascript">
-    let qrcode = new QRCode(document.getElementById("qrcode"), {
+<script>
+    var options = {
         text: "https://github.com/252860883/ArtQRCode",
+        /**
+         * width,height 是输出图的宽高
+         * codeWidth,codeHeight 是二维码的宽高
+         * top,left 是二维码区域的定位
+         */
         width: 500,
         height: 500,
+        codeWidth: 320,
+        codeHeight: 320,
+        top: 85,
+        left: 80,
+        /**
+         * materials unit options
+         */
         materials: {
-            border: "./materials/border.png",
-            eye: "./materials/eye.png",
-            row4: "./materials/row4.png",
-            col4: "./materials/col3.png",
-            row2col3: "./materials/row2col3.png",
-            row3col2: "./materials/row3col2.png",
-            col3: ["./materials/col3.png", "./materials/col3_2.png"],
-            row2col2: "./materials/row2col2.png",
-            corner: "./materials/corner.png",
-            row2: ["./materials/row2.png", "./materials/row2_2.png"],
-            col2: "./materials/col2.png",
-            single: ["./materials/single.png", "./materials/single_2.png"],
+            border: "./materials/electron/border.png",
+            eye: "./materials/electron/eye.png",
+            row4: "./materials/electron/row4.png",
+            col4: "./materials/electron/col3.png",
+            row2col3: "./materials/electron/row2col3.png",
+            row3col2: "./materials/electron/row3col2.png",
+            col3: ["./materials/electron/col3.png", "./materials/electron/col3_2.png"],
+            row2col2: "./materials/electron/row2col2.png",
+            corner: "./materials/electron/corner.png",
+            row2: ["./materials/electron/row2.png", "./materials/electron/row2_2.png"],
+            col2: "./materials/electron/col2.png",
+            single: ["./materials/electron/single.png", "./materials/electron/single_2.png"],
         }
-    });
+    }
+    /** when the artqrcode loaded, run this function */
+    function callBack(status) {
+        console.log(status) // [loaded|success]
+    }
+    var qrcode = new QRCode(document.getElementById("qrcode"), options, callBack);
 </script>
 ```
 
