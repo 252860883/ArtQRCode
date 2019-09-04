@@ -19,8 +19,8 @@
     <div id="qrcode"></div>
 </body>
 <script>
-    let qrcode = new QRCode(document.getElementById("qrcode"), {
-        text: "http://www.baidu.com",
+    var options = {
+        text: "https://github.com/252860883/ArtQRCode",
         /**
          * width,height 是输出图的宽高
          * codeWidth,codeHeight 是二维码的宽高
@@ -33,7 +33,7 @@
         top: 85,
         left: 80,
         /**
-         * 素材配置
+         * materials unit options
          */
         materials: {
             border: "./materials/electron/border.png",
@@ -49,7 +49,13 @@
             col2: "./materials/electron/col2.png",
             single: ["./materials/electron/single.png", "./materials/electron/single_2.png"],
         }
-    });
+    }
+    /** when the artqrcode loaded, run this function */
+    function callBack(status) {
+        console.log(status) // [loaded|success]
+    }
+    var qrcode = new QRCode(document.getElementById("qrcode"), options, callBack);
+    console.log(qrcode)
 </script>
 
 </html>

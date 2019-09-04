@@ -1048,9 +1048,11 @@
      * @param {String} [vOption.colorDark="#000000"]
      * @param {String} [vOption.colorLight="#ffffff"]
      * @param {QRCode.CorrectLevel} [vOption.correctLevel=QRCode.CorrectLevel.H] [L|M|Q|H]
+     * @param {Object} [vOption.materials={eye:"",row2col3:"",row3col2:"",row4:"",col4:"",row3:"",col3:"",row2col2:"",corner:"",col2:"",row2:"",single:""}] 
+     * @param {Function} callback monitor the progress of drawing
      */
 
-    QRCode = function (el, vOption) {
+    QRCode = function (el, vOption,callback) {
         this._htOption = {
             width: 256,
             height: 256,
@@ -1086,23 +1088,23 @@
                 text: vOption
             };
         }
-
         // Overwrites options
         if (vOption) {
             for (var i in vOption) {
                 this._htOption[i] = vOption[i];
             }
         }
-
         if (!vOption.codeWidth) {
             this._htOption.codeWidth = this._htOption.width;
         }
         if (!vOption.codeHeight) {
             this._htOption.codeHeight = this._htOption.height;
         }
-
         if (typeof el == "string") {
             el = document.getElementById(el);
+        }
+        if(typeof callback == "function"){
+            this._callback = callback
         }
 
         this._el = el;
@@ -1129,28 +1131,31 @@
         this._el.title = sText;
         this._oDrawing.draw(this._oQRCode);
         this.makeImage();
+        this._callback && this._callback.call(null,"success");
     };
 
     /**
      * load all materials
      */
     QRCode.prototype.loadMaterial = function (sText) {
-        var _self = this;
-        this.count = 0;
-        this.materials = Object.getOwnPropertyNames(this._htOption.materials);
-        this.materialsLength = this.materials.length
+        var self = this;
+        var count = 0;
+        var materials = Object.getOwnPropertyNames(this._htOption.materials);
+        var materialsLength = materials.length;
+
         function materialsLoaded() {
-            this.count++;
-            if (this.count === this.materialsLength) {
+            count++;
+            if (count === materialsLength) {
                 // material all loaded then draw 
+                self._callback && self._callback.call(null,"loaded");
                 setTimeout(function () {
-                    _self.makeCode(sText);
+                    self.makeCode(sText);
                 }, 500)
             }
         }
 
-        for (var i = 0; i < this.materials.length; i++) {
-            var prop = this.materials[i];
+        for (var i = 0; i < materialsLength; i++) {
+            var prop = materials[i];
             var src = this._htOption.materials[prop];
 
             if (!src) {
@@ -1163,7 +1168,7 @@
             }
             else if (src instanceof Array) {
                 for (var j = 0; j < src.length; j++) {
-                    j && this.materialsLength++;
+                    j && materialsLength++;
                     var childSrc = this._htOption.materials[prop][j];
                     this._htOption.materials[prop][j] = new Image();
                     this._htOption.materials[prop][j].src = childSrc;
