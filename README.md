@@ -37,7 +37,9 @@
             single: ["./materials/electron/single.png", "./materials/electron/single_2.png"],
         }
     }
-    /** when the artqrcode loaded, run this function */
+   /**
+    * when the artqrcode loaded, run this function
+    */
     function callBack(status) {
         console.log(status) // [loaded|success]
     }
