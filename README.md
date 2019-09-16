@@ -3,7 +3,7 @@
 >ArtQRCode 是基于 qrcode.js 的封装，支持以图片元素为基本单元的二维码绘制。
 
 ## Basic Usages
-```
+```js
 <div id="qrcode"></div>
 <script>
     var options = {
