@@ -42,7 +42,7 @@
 </script>
 ```
 
-### Material Configuration
+## Material Configuration
 想要生产出好看的二维码，图片素材必不可少。这需要设计师按照固定比例进行设计，具体素材命名以及规范如下：
 
 ![image](https://wx1.sinaimg.cn/large/a73bc6a1ly1g7pop9fgaij22h60lr7am.jpg)
