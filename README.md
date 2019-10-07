@@ -8,11 +8,6 @@
 <script>
     var options = {
         text: "https://github.com/252860883/ArtQRCode",
-        /**
-         * width,height 是输出图的宽高
-         * codeWidth,codeHeight 是二维码的宽高
-         * top,left 是二维码区域的定位
-         */
         width: 500,
         height: 500,
         codeWidth: 320,
@@ -47,6 +42,10 @@
 </script>
 ```
 
+### Material Configuration
+>想要生产出好看的二维码，图片素材必不可少。这需要设计师按照固定比例进行设计，具体素材命名以及规范如下：
+![image](https://wx1.sinaimg.cn/large/a73bc6a1ly1g7pop9fgaij22h60lr7am.jpg)
+![image](https://wx2.sinaimg.cn/large/a73bc6a1ly1g7pr17yjbgg21mn0m5jx5.gif)
 
 ## Productive Example
 ![image](http://wx2.sinaimg.cn/large/a73bc6a1ly1fmeydtz4jej21kw0qzgz6.jpg)

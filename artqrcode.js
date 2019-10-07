@@ -1052,14 +1052,14 @@
      * @param {Function} callback monitor the progress of drawing
      */
 
-    QRCode = function (el, vOption,callback) {
+    QRCode = function (el, vOption, callback) {
         this._htOption = {
             width: 256,
             height: 256,
             bgWidth: 256,
             bgHeight: 256,
-            codeWidth:256,
-            codeHeight:256,
+            codeWidth: 256,
+            codeHeight: 256,
             top: 0,
             left: 0,
             typeNumber: 4,
@@ -1103,7 +1103,7 @@
         if (typeof el == "string") {
             el = document.getElementById(el);
         }
-        if(typeof callback == "function"){
+        if (typeof callback == "function") {
             this._callback = callback
         }
 
@@ -1131,7 +1131,7 @@
         this._el.title = sText;
         this._oDrawing.draw(this._oQRCode);
         this.makeImage();
-        this._callback && this._callback.call(null,"success");
+        this._callback && this._callback.call(null, "success");
     };
 
     /**
@@ -1147,7 +1147,7 @@
             count++;
             if (count === materialsLength) {
                 // material all loaded then draw 
-                self._callback && self._callback.call(null,"loaded");
+                self._callback && self._callback.call(null, "loaded");
                 setTimeout(function () {
                     self.makeCode(sText);
                 }, 500)
@@ -1164,6 +1164,7 @@
             else if (typeof src == 'string') {
                 this._htOption.materials[prop] = new Image();
                 this._htOption.materials[prop].src = src;
+                this._htOption.materials[prop].setAttribute("crossOrigin",'anonymous');
                 this._htOption.materials[prop].onload = materialsLoaded.bind(this);
             }
             else if (src instanceof Array) {
@@ -1172,6 +1173,7 @@
                     var childSrc = this._htOption.materials[prop][j];
                     this._htOption.materials[prop][j] = new Image();
                     this._htOption.materials[prop][j].src = childSrc;
+                    this._htOption.materials[prop][j].setAttribute("crossOrigin",'anonymous');
                     this._htOption.materials[prop][j].onload = materialsLoaded.bind(this);
                 }
 
