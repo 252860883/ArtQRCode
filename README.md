@@ -54,7 +54,8 @@
 
 
 ## Last
-- 觉得有意思的话，给颗star吧～
+- 觉得有意思，给颗star吧～
 - 网罗一线牵，珍惜这段缘
 - We meet in the network,please cherish this fate
-- 欢迎issue
+- 如果能帮到你，就请我喝杯咖啡吧～
+<img src="https://wx1.sinaimg.cn/mw690/a73bc6a1ly1gc9mhvt4nbj20cx0cnab1.jpg" width="200" />
